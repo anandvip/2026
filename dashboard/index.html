@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>2026 Dashboard — Five Areas Tracker</title>
+  <meta name="description" content="Single-file offline dashboard to track 5 life areas in 2026. LocalStorage-based, export/import, quarterly milestones, weekly check-ins." />
+  <style>
+    :root{
+      --bg:#0b0f17;
+      --panel:#101827;
+      --panel2:#0f172a;
+      --muted:#94a3b8;
+      --text:#e5e7eb;
+      --line:rgba(148,163,184,.18);
+      --accent:#38bdf8;
+      --accent2:#a78bfa;
+      --good:#22c55e;
+      --warn:#f59e0b;
+      --bad:#ef4444;
+      --shadow: 0 18px 60px rgba(0,0,0,.45);
+      --radius:18px;
+      --radius2:14px;
+    }
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      background:
+        radial-gradient(1200px 600px at 15% 10%, rgba(56,189,248,.12), transparent 60%),
+        radial-gradient(900px 500px at 90% 20%, rgba(167,139,250,.10), transparent 55%),
+        radial-gradient(900px 500px at 60% 95%, rgba(34,197,94,.07), transparent 55%),
+        var(--bg);
+      color:var(--text);
+      font: 14px/1.55 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      padding: 18px;
+    }
+    .wrap{ max-width: 1180px; margin: 0 auto; }
+    header{
+      display:flex; gap:14px; align-items:flex-start; justify-content:space-between;
+      padding: 18px 18px 14px;
+      border:1px solid var(--line);
+      background: linear-gradient(180deg, rgba(16,24,39,.88), rgba(16,24,39,.62));
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+    .h-left{ display:flex; flex-direction:column; gap:6px; }
+    .title{
+      display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+      font-weight: 800;
+      letter-spacing:.2px;
+      font-size: 18px;
+    }
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 6px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(148,163,184,.08);
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 12px;
+    }
+    .sub{ color:var(--muted); font-size: 13px; }
+    .h-right{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:flex-end; }
+    .btn{
+      border:1px solid var(--line);
+      background: rgba(15,23,42,.75);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 12px;
+      cursor:pointer;
+      font-weight: 700;
+      transition: transform .08s ease, border-color .15s ease, background .15s ease;
+      user-select:none;
+    }
+    .btn:hover{ transform: translateY(-1px); border-color: rgba(56,189,248,.35); }
+    .btn:active{ transform: translateY(0px); }
+    .btn.primary{
+      background: linear-gradient(135deg, rgba(56,189,248,.18), rgba(167,139,250,.16));
+      border-color: rgba(56,189,248,.28);
+    }
+    .btn.danger{
+      background: rgba(239,68,68,.10);
+      border-color: rgba(239,68,68,.25);
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: 360px 1fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+    @media (max-width: 980px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+    .card{
+      border:1px solid var(--line);
+      background: rgba(16,24,39,.70);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      overflow:hidden;
+    }
+    .card .head{
+      padding: 14px 14px 10px;
+      border-bottom: 1px solid var(--line);
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      justify-content:space-between;
+    }
+    .card .head h2{
+      margin:0;
+      font-size: 14px;
+      letter-spacing:.2px;
+    }
+    .card .head .hint{
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 2px;
+    }
+    .card .body{ padding: 14px; }
+
+    .kpis{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .kpi{
+      border:1px solid var(--line);
+      background: rgba(15,23,42,.55);
+      border-radius: var(--radius2);
+      padding: 12px;
+    }
+    .kpi .label{ color: var(--muted); font-size: 12px; }
+    .kpi .value{ font-size: 18px; font-weight: 800; margin-top: 2px; }
+    .kpi .mini{ color: var(--muted); font-size: 12px; margin-top: 2px; }
+    .spark{
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(148,163,184,.10);
+      overflow:hidden;
+      margin-top: 10px;
+      border:1px solid rgba(148,163,184,.10);
+    }
+    .spark > i{
+      display:block; height:100%;
+      width: 0%;
+      background: linear-gradient(90deg, rgba(56,189,248,.9), rgba(167,139,250,.9));
+      border-radius: 999px;
+      transition: width .25s ease;
+    }
+
+    .tabs{
+      display:flex; gap:8px; flex-wrap:wrap;
+      padding: 12px 14px;
+      border-bottom:1px solid var(--line);
+      background: rgba(15,23,42,.35);
+    }
+    .tab{
+      border:1px solid var(--line);
+      background: rgba(15,23,42,.55);
+      color: var(--text);
+      padding: 8px 10px;
+      border-radius: 999px;
+      cursor:pointer;
+      font-weight: 800;
+      font-size: 12px;
+      display:flex; align-items:center; gap:8px;
+      user-select:none;
+      transition: border-color .15s ease, transform .08s ease;
+    }
+    .tab:hover{ transform: translateY(-1px); border-color: rgba(56,189,248,.35); }
+    .tab.active{
+      border-color: rgba(56,189,248,.45);
+      background: linear-gradient(135deg, rgba(56,189,248,.16), rgba(167,139,250,.14));
+    }
+    .tab small{
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 11px;
+    }
+    .panel{ display:none; }
+    .panel.active{ display:block; }
+
+    .row{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    @media (max-width: 740px){
+      .row{ grid-template-columns: 1fr; }
+    }
+    label{ display:block; font-weight: 800; font-size: 12px; margin: 0 0 6px; color: var(--text); }
+    .field, textarea, select{
+      width:100%;
+      border-radius: 12px;
+      border:1px solid var(--line);
+      background: rgba(15,23,42,.55);
+      color: var(--text);
+      padding: 10px 10px;
+      outline:none;
+      transition: border-color .15s ease, box-shadow .15s ease;
+      font: inherit;
+    }
+    textarea{ min-height: 110px; resize: vertical; }
+    .field:focus, textarea:focus, select:focus{
+      border-color: rgba(56,189,248,.45);
+      box-shadow: 0 0 0 3px rgba(56,189,248,.10);
+    }
+    .help{ color: var(--muted); font-size: 12px; margin-top: 6px; }
+    .split{
+      display:flex; gap:10px; align-items:center; justify-content:space-between; flex-wrap:wrap;
+      margin-top: 10px;
+    }
+    .chips{ display:flex; gap:8px; flex-wrap:wrap; }
+    .chip{
+      display:inline-flex; align-items:center; gap:8px;
+      border:1px solid var(--line);
+      background: rgba(15,23,42,.55);
+      padding: 8px 10px;
+      border-radius: 999px;
+      cursor:pointer;
+      user-select:none;
+      font-weight: 800;
+      font-size: 12px;
+      transition: border-color .15s ease, transform .08s ease;
+    }
+    .chip:hover{ transform: translateY(-1px); border-color: rgba(56,189,248,.35); }
+    .chip[aria-pressed="true"]{
+      border-color: rgba(34,197,94,.45);
+      background: rgba(34,197,94,.12);
+    }
+
+    .list{
+      display:flex; flex-direction:column; gap:10px;
+    }
+    .item{
+      border:1px solid var(--line);
+      background: rgba(15,23,42,.55);
+      border-radius: var(--radius2);
+      padding: 12px;
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+      justify-content:space-between;
+    }
+    .item .meta{ display:flex; flex-direction:column; gap: 4px; }
+    .item .meta strong{ font-size: 13px; }
+    .item .meta small{ color: var(--muted); }
+    .item .actions{ display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
+    .tiny{
+      border:1px solid var(--line);
+      background: rgba(16,24,39,.55);
+      color: var(--text);
+      padding: 8px 10px;
+      border-radius: 12px;
+      cursor:pointer;
+      font-weight: 800;
+      font-size: 12px;
+    }
+    .tiny.good{ border-color: rgba(34,197,94,.35); background: rgba(34,197,94,.10); }
+    .tiny.warn{ border-color: rgba(245,158,11,.35); background: rgba(245,158,11,.10); }
+    .tiny.bad{ border-color: rgba(239,68,68,.35); background: rgba(239,68,68,.10); }
+
+    .footer-note{
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 12px;
+      text-align:center;
+      opacity:.9;
+    }
+
+    dialog{
+      width:min(920px, 96vw);
+      border-radius: 18px;
+      border:1px solid var(--line);
+      background: rgba(16,24,39,.95);
+      color: var(--text);
+      box-shadow: var(--shadow);
+    }
+    dialog::backdrop{ background: rgba(0,0,0,.55); backdrop-filter: blur(5px); }
+    .dlg-head{
+      display:flex; align-items:flex-start; justify-content:space-between; gap: 12px;
+      padding: 14px 14px 10px;
+      border-bottom:1px solid var(--line);
+    }
+    .dlg-head h3{ margin:0; font-size: 14px; }
+    .dlg-body{ padding: 14px; }
+    .mono{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="h-left">
+        <div class="title">
+          2026 Dashboard — Five Areas Tracker
+          <span class="pill" id="pillDate">Last saved: —</span>
+          <span class="pill" id="pillStreak">Weekly streak: 0</span>
+        </div>
+        <div class="sub">
+          Offline-first. Everything saves in your browser (localStorage). Export JSON anytime.
+        </div>
+      </div>
+      <div class="h-right">
+        <button class="btn primary" id="btnWeeklyCheckin">Weekly Check-in</button>
+        <button class="btn" id="btnExport">Export</button>
+        <button class="btn" id="btnImport">Import</button>
+        <button class="btn danger" id="btnReset">Reset</button>
+      </div>
+    </header>
+
+    <div class="grid">
+      <!-- LEFT: Overview -->
+      <section class="card" aria-label="Overview">
+        <div class="head">
+          <div>
+            <h2>Overview</h2>
+            <div class="hint">Your 5-area pulse + quick totals</div>
+          </div>
+          <span class="pill" id="pillQuarter">Quarter: Q1</span>
+        </div>
+        <div class="body">
+          <div class="kpis">
+            <div class="kpi">
+              <div class="label">Overall health</div>
+              <div class="value" id="kpiOverall">—</div>
+              <div class="mini">Avg of 5 area scores</div>
+              <div class="spark"><i id="sparkOverall"></i></div>
+            </div>
+            <div class="kpi">
+              <div class="label">This week check-in</div>
+              <div class="value" id="kpiThisWeek">No</div>
+              <div class="mini" id="kpiThisWeekMini">Log a check-in to keep momentum</div>
+              <div class="spark"><i id="sparkCheckin"></i></div>
+            </div>
+
+            <div class="kpi">
+              <div class="label">Milestones done</div>
+              <div class="value" id="kpiMileDone">0</div>
+              <div class="mini" id="kpiMileTotal">of 0 total</div>
+              <div class="spark"><i id="sparkMile"></i></div>
+            </div>
+            <div class="kpi">
+              <div class="label">Notes captured</div>
+              <div class="value" id="kpiNotes">0</div>
+              <div class="mini">Across all areas</div>
+              <div class="spark"><i id="sparkNotes"></i></div>
+            </div>
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="row">
+            <div>
+              <label for="yearTheme">2026 Theme (one sentence)</label>
+              <input class="field" id="yearTheme" placeholder="Example: Consolidation + compounding (clarity > complexity)" />
+              <div class="help">Keeps you aligned when you feel scattered.</div>
+            </div>
+            <div>
+              <label for="northStar">North Star (what you refuse to compromise)</label>
+              <input class="field" id="northStar" placeholder="Example: I don't do urgency deals. I move only from preparedness." />
+              <div class="help">One line that protects your dignity + control.</div>
+            </div>
+          </div>
+
+          <div class="split">
+            <div class="chips" role="group" aria-label="Quarter selector">
+              <span class="chip" data-q="1" aria-pressed="true">Q1 <small>Jan–Mar</small></span>
+              <span class="chip" data-q="2" aria-pressed="false">Q2 <small>Apr–Jun</small></span>
+              <span class="chip" data-q="3" aria-pressed="false">Q3 <small>Jul–Sep</small></span>
+              <span class="chip" data-q="4" aria-pressed="false">Q4 <small>Oct–Dec</small></span>
+            </div>
+            <button class="btn" id="btnAddMilestone">Add milestone</button>
+          </div>
+
+          <div style="height:12px"></div>
+          <div class="list" id="milestoneList" aria-label="Milestones list"></div>
+          <div class="help">Tip: keep 3–7 milestones per quarter. Small, visible, finishable.</div>
+        </div>
+      </section>
+
+      <!-- RIGHT: Tabs -->
+      <section class="card" aria-label="Areas">
+        <div class="tabs" role="tablist" aria-label="Area tabs">
+          <button class="tab active" role="tab" data-tab="finance" aria-selected="true">1) Financial <small>Base</small></button>
+          <button class="tab" role="tab" data-tab="land" aria-selected="false">2) Land <small>Control</small></button>
+          <button class="tab" role="tab" data-tab="builder" aria-selected="false">3) Builder <small>Ship</small></button>
+          <button class="tab" role="tab" data-tab="mind" aria-selected="false">4) Mind & Energy <small>Clarity</small></button>
+          <button class="tab" role="tab" data-tab="legacy" aria-selected="false">5) Legacy <small>Truth</small></button>
+        </div>
+
+        <div class="body">
+          <!-- FINANCE -->
+          <div class="panel active" id="panel-finance" role="tabpanel">
+            <div class="row">
+              <div>
+                <label for="financeScore">Score (0–10)</label>
+                <input class="field" id="financeScore" type="number" min="0" max="10" step="1" placeholder="0 to 10" />
+                <div class="help">Your felt-sense of financial clarity and stability.</div>
+              </div>
+              <div>
+                <label for="financeRule">2026 Rule (one line)</label>
+                <input class="field" id="financeRule" placeholder="Example: No new complexity unless it improves clarity." />
+              </div>
+            </div>
+
+            <div class="row">
+              <div>
+                <label for="monthlyInflow">Expected monthly inflow (₹)</label>
+                <input class="field" id="monthlyInflow" type="number" min="0" step="100" placeholder="e.g., 127000" />
+              </div>
+              <div>
+                <label for="monthlyOutflow">Expected monthly outflow (₹)</label>
+                <input class="field" id="monthlyOutflow" type="number" min="0" step="100" placeholder="e.g., 90000" />
+              </div>
+            </div>
+
+            <div class="row">
+              <div>
+                <label for="bufferMonths">Emergency buffer target (months)</label>
+                <input class="field" id="bufferMonths" type="number" min="0" step="1" placeholder="e.g., 12" />
+              </div>
+              <div>
+                <label for="bufferNow">Current buffer equivalent (months)</label>
+                <input class="field" id="bufferNow" type="number" min="0" step="1" placeholder="e.g., 10" />
+              </div>
+            </div>
+
+            <label for="financeNotes">Notes (decisions / reminders)</label>
+            <textarea id="financeNotes" placeholder="Keep it practical: rules, dates, amounts, next action."></textarea>
+          </div>
+
+          <!-- LAND -->
+          <div class="panel" id="panel-land" role="tabpanel">
+            <div class="row">
+              <div>
+                <label for="landScore">Score (0–10)</label>
+                <input class="field" id="landScore" type="number" min="0" max="10" step="1" placeholder="0 to 10" />
+                <div class="help">Control, preparedness, and calm in decisions.</div>
+              </div>
+              <div>
+                <label for="landRedLine">Red line (non-negotiable)</label>
+                <input class="field" id="landRedLine" placeholder="Example: Never sell more than X acres total." />
+              </div>
+            </div>
+
+            <div class="row">
+              <div>
+                <label for="targetRate">Target rate (₹ per acre)</label>
+                <input class="field" id="targetRate" type="number" min="0" step="50000" placeholder="e.g., 9500000" />
+              </div>
+              <div>
+                <label for="sellCapAcres">Max acres to sell in 2026 (cap)</label>
+                <input class="field" id="sellCapAcres" type="number" min="0" step="0.25" placeholder="e.g., 3" />
+              </div>
+            </div>
+
+            <label for="landNotes">Negotiation / legal / process notes</label>
+            <textarea id="landNotes" placeholder="Templates, buyer notes, dates, registry conditions, bank/cash clarity, etc."></textarea>
+          </div>
+
+          <!-- BUILDER -->
+          <div class="panel" id="panel-builder" role="tabpanel">
+            <div class="row">
+              <div>
+                <label for="builderScore">Score (0–10)</label>
+                <input class="field" id="builderScore" type="number" min="0" max="10" step="1" placeholder="0 to 10" />
+                <div class="help">Shipping velocity + focus (one flagship).</div>
+              </div>
+              <div>
+                <label for="flagshipTool">Flagship tool for 2026</label>
+                <input class="field" id="flagshipTool" placeholder="Example: Offline Finance + Land Decision Dashboard" />
+              </div>
+            </div>
+
+            <div class="row">
+              <div>
+                <label for="shipDefinition">Definition of “shipped”</label>
+                <input class="field" id="shipDefinition" placeholder="Example: v1 live on GitHub Pages + used 10 times + export works" />
+              </div>
+              <div>
+                <label for="weeklyBuilderHours">Weekly build hours target</label>
+                <input class="field" id="weeklyBuilderHours" type="number" min="0" step="1" placeholder="e.g., 6" />
+              </div>
+            </div>
+
+            <label for="builderNotes">Build notes</label>
+            <textarea id="builderNotes" placeholder="Backlog, UX decisions, what to cut, what to keep."></textarea>
+          </div>
+
+          <!-- MIND -->
+          <div class="panel" id="panel-mind" role="tabpanel">
+            <div class="row">
+              <div>
+                <label for="mindScore">Score (0–10)</label>
+                <input class="field" id="mindScore" type="number" min="0" max="10" step="1" placeholder="0 to 10" />
+                <div class="help">Clarity, emotional regulation, sustainable energy.</div>
+              </div>
+              <div>
+                <label for="anchorRitual">Anchor ritual (small + consistent)</label>
+                <input class="field" id="anchorRitual" placeholder="Example: 20 min walk + 10 min writing" />
+              </div>
+            </div>
+
+            <div class="row">
+              <div>
+                <label for="sleepTarget">Sleep target (hours)</label>
+                <input class="field" id="sleepTarget" type="number" min="0" step="0.5" placeholder="e.g., 7.5" />
+              </div>
+              <div>
+                <label for="infoDietRule">Info diet rule</label>
+                <input class="field" id="infoDietRule" placeholder="Example: Read less, integrate more." />
+              </div>
+            </div>
+
+            <label for="mindNotes">Mind & energy notes</label>
+            <textarea id="mindNotes" placeholder="Patterns observed, triggers, stabilizers, what worked, what didn’t."></textarea>
+          </div>
+
+          <!-- LEGACY -->
+          <div class="panel" id="panel-legacy" role="tabpanel">
+            <div class="row">
+              <div>
+                <label for="legacyScore">Score (0–10)</label>
+                <input class="field" id="legacyScore" type="number" min="0" max="10" step="1" placeholder="0 to 10" />
+                <div class="help">Living documents, clarity for future-you/family.</div>
+              </div>
+              <div>
+                <label for="legacyArtifact">Primary legacy artifact</label>
+                <input class="field" id="legacyArtifact" placeholder="Example: Decision principles + family financial playbook" />
+              </div>
+            </div>
+
+            <div class="row">
+              <div>
+                <label for="audience">Audience (who it is written for)</label>
+                <input class="field" id="audience" placeholder="Example: My daughter + future successor" />
+              </div>
+              <div>
+                <label for="cadence">Cadence</label>
+                <select id="cadence">
+                  <option value="weekly">Weekly</option>
+                  <option value="biweekly">Every 2 weeks</option>
+                  <option value="monthly">Monthly</option>
+                  <option value="ad-hoc">As needed</option>
+                </select>
+              </div>
+            </div>
+
+            <label for="legacyNotes">Legacy notes (write like it will be read later)</label>
+            <textarea id="legacyNotes" placeholder="Key lessons, decisions, principles, what you want remembered."></textarea>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="footer-note">
+      Tip: Open this file from your desktop anytime. It will remember everything automatically in this browser.
+    </div>
+  </div>
+
+  <!-- Modals -->
+  <dialog id="dlgMilestone">
+    <div class="dlg-head">
+      <div>
+        <h3>Add milestone</h3>
+        <div class="hint">Attach it to a quarter. Keep it small and finishable.</div>
+      </div>
+      <button class="btn" id="btnCloseMilestone">Close</button>
+    </div>
+    <div class="dlg-body">
+      <div class="row">
+        <div>
+          <label for="msQuarter">Quarter</label>
+          <select id="msQuarter">
+            <option value="1">Q1 (Jan–Mar)</option>
+            <option value="2">Q2 (Apr–Jun)</option>
+            <option value="3">Q3 (Jul–Sep)</option>
+            <option value="4">Q4 (Oct–Dec)</option>
+          </select>
+        </div>
+        <div>
+          <label for="msArea">Area</label>
+          <select id="msArea">
+            <option value="finance">Financial</option>
+            <option value="land">Land</option>
+            <option value="builder">Builder</option>
+            <option value="mind">Mind & Energy</option>
+            <option value="legacy">Legacy</option>
+          </select>
+        </div>
+      </div>
+      <label for="msTitle">Milestone title</label>
+      <input class="field" id="msTitle" placeholder="Example: Build v1 dashboard + export/import working" />
+      <div style="height:10px"></div>
+      <label for="msDetail">Detail (optional)</label>
+      <textarea id="msDetail" placeholder="Definition of done, constraints, or mini checklist."></textarea>
+      <div class="split">
+        <div class="help">Milestones show up in Overview for the selected quarter.</div>
+        <button class="btn primary" id="btnSaveMilestone">Save milestone</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="dlgCheckin">
+    <div class="dlg-head">
+      <div>
+        <h3>Weekly Check-in</h3>
+        <div class="hint">2 minutes. Keep it honest, not poetic.</div>
+      </div>
+      <button class="btn" id="btnCloseCheckin">Close</button>
+    </div>
+    <div class="dlg-body">
+      <div class="row">
+        <div>
+          <label for="ciDate">Date</label>
+          <input class="field" id="ciDate" type="date" />
+        </div>
+        <div>
+          <label for="ciWins">Win of the week (one line)</label>
+          <input class="field" id="ciWins" placeholder="Example: I refused urgency, stayed calm, moved prepared." />
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label for="ciDrag">Drag of the week (one line)</label>
+          <input class="field" id="ciDrag" placeholder="Example: Too many ideas, not enough shipping." />
+        </div>
+        <div>
+          <label for="ciNext">Next week focus (one line)</label>
+          <input class="field" id="ciNext" placeholder="Example: Finish export/import + publish v1." />
+        </div>
+      </div>
+      <label for="ciNotes">Notes</label>
+      <textarea id="ciNotes" placeholder="Optional: what you learned, what changed, what to remember."></textarea>
+
+      <div class="split">
+        <div class="help">This log is stored and shown in Overview (for streak + status).</div>
+        <button class="btn primary" id="btnSaveCheckin">Save check-in</button>
+      </div>
+
+      <div style="height:12px"></div>
+      <div class="list" id="checkinList" aria-label="Check-ins list"></div>
+    </div>
+  </dialog>
+
+  <dialog id="dlgData">
+    <div class="dlg-head">
+      <div>
+        <h3 id="dlgDataTitle">Export</h3>
+        <div class="hint" id="dlgDataHint">Copy/save JSON. Import later on the same or another machine.</div>
+      </div>
+      <button class="btn" id="btnCloseData">Close</button>
+    </div>
+    <div class="dlg-body">
+      <textarea id="dataBox" class="mono" spellcheck="false" style="min-height: 280px;"></textarea>
+      <div class="split">
+        <div class="help" id="dlgDataHelp">Tip: save this JSON in a safe folder or your encrypted notes.</div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;">
+          <button class="btn" id="btnCopy">Copy</button>
+          <button class="btn primary" id="btnApplyImport" style="display:none;">Apply Import</button>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <script>
+    (() => {
+      const KEY = "va_2026_dashboard_v1";
+
+      const $ = (sel, root=document) => root.querySelector(sel);
+      const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+      const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
+
+      const nowISO = () => new Date().toISOString();
+      const todayLocalDate = () => {
+        const d = new Date();
+        const pad = (x) => String(x).padStart(2, "0");
+        return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+      };
+
+      const defaultState = () => ({
+        meta: { createdAt: nowISO(), updatedAt: nowISO(), selectedQuarter: 1, activeTab: "finance" },
+        overview: { yearTheme: "", northStar: "" },
+        areas: {
+          finance: { score: "", rule: "", monthlyInflow: "", monthlyOutflow: "", bufferMonths: "", bufferNow: "", notes: "" },
+          land:    { score: "", redLine: "", targetRate: "", sellCapAcres: "", notes: "" },
+          builder: { score: "", flagshipTool: "", shipDefinition: "", weeklyBuilderHours: "", notes: "" },
+          mind:    { score: "", anchorRitual: "", sleepTarget: "", infoDietRule: "", notes: "" },
+          legacy:  { score: "", legacyArtifact: "", audience: "", cadence: "weekly", notes: "" }
+        },
+        milestones: [],
+        checkins: []
+      });
+
+      const load = () => {
+        try{
+          const raw = localStorage.getItem(KEY);
+          if(!raw) return defaultState();
+          const parsed = JSON.parse(raw);
+          return { ...defaultState(), ...parsed };
+        }catch{
+          return defaultState();
+        }
+      };
+
+      const save = (state) => {
+        state.meta.updatedAt = nowISO();
+        localStorage.setItem(KEY, JSON.stringify(state));
+        renderMeta(state);
+        renderOverview(state);
+      };
+
+      const state = load();
+
+      // ---------- UI refs ----------
+      const pillDate = $("#pillDate");
+      const pillStreak = $("#pillStreak");
+      const pillQuarter = $("#pillQuarter");
+
+      const yearTheme = $("#yearTheme");
+      const northStar = $("#northStar");
+
+      const quarterChips = $$(".chip[data-q]");
+      const milestoneList = $("#milestoneList");
+
+      const kpiOverall = $("#kpiOverall");
+      const sparkOverall = $("#sparkOverall");
+      const kpiThisWeek = $("#kpiThisWeek");
+      const kpiThisWeekMini = $("#kpiThisWeekMini");
+      const sparkCheckin = $("#sparkCheckin");
+      const kpiMileDone = $("#kpiMileDone");
+      const kpiMileTotal = $("#kpiMileTotal");
+      const sparkMile = $("#sparkMile");
+      const kpiNotes = $("#kpiNotes");
+      const sparkNotes = $("#sparkNotes");
+
+      const tabs = $$(".tab");
+      const panels = {
+        finance: $("#panel-finance"),
+        land: $("#panel-land"),
+        builder: $("#panel-builder"),
+        mind: $("#panel-mind"),
+        legacy: $("#panel-legacy")
+      };
+
+      // Finance fields
+      const financeScore = $("#financeScore");
+      const financeRule = $("#financeRule");
+      const monthlyInflow = $("#monthlyInflow");
+      const monthlyOutflow = $("#monthlyOutflow");
+      const bufferMonths = $("#bufferMonths");
+      const bufferNow = $("#bufferNow");
+      const financeNotes = $("#financeNotes");
+
+      // Land fields
+      const landScore = $("#landScore");
+      const landRedLine = $("#landRedLine");
+      const targetRate = $("#targetRate");
+      const sellCapAcres = $("#sellCapAcres");
+      const landNotes = $("#landNotes");
+
+      // Builder fields
+      const builderScore = $("#builderScore");
+      const flagshipTool = $("#flagshipTool");
+      const shipDefinition = $("#shipDefinition");
+      const weeklyBuilderHours = $("#weeklyBuilderHours");
+      const builderNotes = $("#builderNotes");
+
+      // Mind fields
+      const mindScore = $("#mindScore");
+      const anchorRitual = $("#anchorRitual");
+      const sleepTarget = $("#sleepTarget");
+      const infoDietRule = $("#infoDietRule");
+      const mindNotes = $("#mindNotes");
+
+      // Legacy fields
+      const legacyScore = $("#legacyScore");
+      const legacyArtifact = $("#legacyArtifact");
+      const audience = $("#audience");
+      const cadence = $("#cadence");
+      const legacyNotes = $("#legacyNotes");
+
+      // Dialogs
+      const dlgMilestone = $("#dlgMilestone");
+      const btnAddMilestone = $("#btnAddMilestone");
+      const btnCloseMilestone = $("#btnCloseMilestone");
+      const msQuarter = $("#msQuarter");
+      const msArea = $("#msArea");
+      const msTitle = $("#msTitle");
+      const msDetail = $("#msDetail");
+      const btnSaveMilestone = $("#btnSaveMilestone");
+
+      const dlgCheckin = $("#dlgCheckin");
+      const btnWeeklyCheckin = $("#btnWeeklyCheckin");
+      const btnCloseCheckin = $("#btnCloseCheckin");
+      const ciDate = $("#ciDate");
+      const ciWins = $("#ciWins");
+      const ciDrag = $("#ciDrag");
+      const ciNext = $("#ciNext");
+      const ciNotes = $("#ciNotes");
+      const btnSaveCheckin = $("#btnSaveCheckin");
+      const checkinList = $("#checkinList");
+
+      const dlgData = $("#dlgData");
+      const dlgDataTitle = $("#dlgDataTitle");
+      const dlgDataHint = $("#dlgDataHint");
+      const dlgDataHelp = $("#dlgDataHelp");
+      const dataBox = $("#dataBox");
+      const btnCloseData = $("#btnCloseData");
+      const btnCopy = $("#btnCopy");
+      const btnApplyImport = $("#btnApplyImport");
+      const btnExport = $("#btnExport");
+      const btnImport = $("#btnImport");
+      const btnReset = $("#btnReset");
+
+      // ---------- Helpers ----------
+      const fmtDateTime = (iso) => {
+        try{
+          const d = new Date(iso);
+          return d.toLocaleString(undefined, { year:"numeric", month:"short", day:"2-digit", hour:"2-digit", minute:"2-digit" });
+        }catch{ return "—"; }
+      };
+
+      const getQuarterLabel = (q) => `Q${q}`;
+
+      const areaName = (k) => ({
+        finance: "Financial",
+        land: "Land",
+        builder: "Builder",
+        mind: "Mind & Energy",
+        legacy: "Legacy"
+      }[k] || k);
+
+      const scoreNum = (v) => {
+        const n = Number(v);
+        return Number.isFinite(n) ? clamp(n, 0, 10) : null;
+      };
+
+      const countNotes = (s) => {
+        const a = s.areas;
+        const fields = [
+          a.finance.notes, a.land.notes, a.builder.notes, a.mind.notes, a.legacy.notes
+        ];
+        return fields.reduce((acc, t) => acc + (String(t||"").trim().length ? 1 : 0), 0);
+      };
+
+      const isSameWeek = (dateA, dateB) => {
+        // ISO week-ish: compare week start (Mon) timestamps
+        const weekStart = (d) => {
+          const x = new Date(d);
+          const day = (x.getDay()+6)%7; // Mon=0
+          x.setHours(0,0,0,0);
+          x.setDate(x.getDate() - day);
+          return x.getTime();
+        };
+        return weekStart(dateA) === weekStart(dateB);
+      };
+
+      const computeStreak = (checkins) => {
+        // streak = number of consecutive weeks ending this week with >=1 check-in
+        if(!checkins.length) return 0;
+        const sorted = [...checkins].sort((a,b) => new Date(b.date) - new Date(a.date));
+        let streak = 0;
+        let cursor = new Date(); // now
+        for(;;){
+          const found = sorted.some(ci => isSameWeek(new Date(ci.date), cursor));
+          if(!found) break;
+          streak += 1;
+          cursor.setDate(cursor.getDate() - 7);
+        }
+        return streak;
+      };
+
+      // ---------- Render ----------
+      const renderMeta = (s) => {
+        pillDate.textContent = `Last saved: ${fmtDateTime(s.meta.updatedAt)}`;
+        pillQuarter.textContent = `Quarter: ${getQuarterLabel(s.meta.selectedQuarter)}`;
+        pillStreak.textContent = `Weekly streak: ${computeStreak(s.checkins)}`;
+        quarterChips.forEach(ch => ch.setAttribute("aria-pressed", String(Number(ch.dataset.q) === Number(s.meta.selectedQuarter))));
+      };
+
+      const renderMilestones = (s) => {
+        const q = Number(s.meta.selectedQuarter);
+        const list = s.milestones.filter(m => Number(m.quarter) === q);
+        milestoneList.innerHTML = "";
+
+        if(!list.length){
+          const empty = document.createElement("div");
+          empty.className = "help";
+          empty.textContent = "No milestones yet for this quarter. Add 3–7 small finishable milestones.";
+          milestoneList.appendChild(empty);
+          return;
+        }
+
+        list
+          .sort((a,b) => (a.done === b.done) ? (b.createdAt.localeCompare(a.createdAt)) : (a.done ? 1 : -1))
+          .forEach(m => {
+            const el = document.createElement("div");
+            el.className = "item";
+            el.innerHTML = `
+              <div class="meta">
+                <strong>${escapeHtml(m.title)} ${m.done ? "✅" : ""}</strong>
+                <small>${areaName(m.area)} • ${getQuarterLabel(m.quarter)} • ${m.detail ? escapeHtml(m.detail) : "—"}</small>
+              </div>
+              <div class="actions">
+                <button class="tiny ${m.done ? "warn" : "good"}" data-act="toggle" data-id="${m.id}">${m.done ? "Mark not done" : "Mark done"}</button>
+                <button class="tiny bad" data-act="del" data-id="${m.id}">Delete</button>
+              </div>
+            `;
+            milestoneList.appendChild(el);
+          });
+      };
+
+      const renderCheckins = (s) => {
+        checkinList.innerHTML = "";
+        const list = [...s.checkins].sort((a,b) => new Date(b.date) - new Date(a.date)).slice(0, 8);
+
+        if(!list.length){
+          const empty = document.createElement("div");
+          empty.className = "help";
+          empty.textContent = "No check-ins yet. Click “Weekly Check-in” to start.";
+          checkinList.appendChild(empty);
+          return;
+        }
+
+        list.forEach(ci => {
+          const el = document.createElement("div");
+          el.className = "item";
+          el.innerHTML = `
+            <div class="meta">
+              <strong>${escapeHtml(ci.date)}</strong>
+              <small>Win: ${escapeHtml(ci.win || "—")} • Drag: ${escapeHtml(ci.drag || "—")} • Next: ${escapeHtml(ci.next || "—")}</small>
+            </div>
+            <div class="actions">
+              <button class="tiny bad" data-ci="del" data-id="${ci.id}">Delete</button>
+            </div>
+          `;
+          checkinList.appendChild(el);
+        });
+      };
+
+      const renderOverview = (s) => {
+        // KPIs
+        const scores = [
+          scoreNum(s.areas.finance.score),
+          scoreNum(s.areas.land.score),
+          scoreNum(s.areas.builder.score),
+          scoreNum(s.areas.mind.score),
+          scoreNum(s.areas.legacy.score),
+        ].filter(v => v !== null);
+
+        const avg = scores.length ? (scores.reduce((a,b)=>a+b,0)/scores.length) : null;
+        const avgText = avg === null ? "—" : `${avg.toFixed(1)}/10`;
+        kpiOverall.textContent = avgText;
+        sparkOverall.style.width = `${avg === null ? 0 : clamp(avg*10, 0, 100)}%`;
+
+        // This week checkin
+        const hasThisWeek = s.checkins.some(ci => isSameWeek(new Date(ci.date), new Date()));
+        kpiThisWeek.textContent = hasThisWeek ? "Yes" : "No";
+        kpiThisWeekMini.textContent = hasThisWeek ? "Momentum protected this week" : "Log a check-in to keep momentum";
+        sparkCheckin.style.width = `${hasThisWeek ? 100 : 0}%`;
+
+        // Milestones done
+        const total = s.milestones.length;
+        const done = s.milestones.filter(m => m.done).length;
+        kpiMileDone.textContent = String(done);
+        kpiMileTotal.textContent = `of ${total} total`;
+        sparkMile.style.width = `${total ? clamp((done/total)*100, 0, 100) : 0}%`;
+
+        // Notes
+        const notesCount = countNotes(s);
+        kpiNotes.textContent = String(notesCount);
+        sparkNotes.style.width = `${clamp(notesCount*20, 0, 100)}%`;
+
+        // Milestones list
+        renderMilestones(s);
+      };
+
+      const hydrateFields = (s) => {
+        yearTheme.value = s.overview.yearTheme || "";
+        northStar.value = s.overview.northStar || "";
+
+        financeScore.value = s.areas.finance.score ?? "";
+        financeRule.value = s.areas.finance.rule ?? "";
+        monthlyInflow.value = s.areas.finance.monthlyInflow ?? "";
+        monthlyOutflow.value = s.areas.finance.monthlyOutflow ?? "";
+        bufferMonths.value = s.areas.finance.bufferMonths ?? "";
+        bufferNow.value = s.areas.finance.bufferNow ?? "";
+        financeNotes.value = s.areas.finance.notes ?? "";
+
+        landScore.value = s.areas.land.score ?? "";
+        landRedLine.value = s.areas.land.redLine ?? "";
+        targetRate.value = s.areas.land.targetRate ?? "";
+        sellCapAcres.value = s.areas.land.sellCapAcres ?? "";
+        landNotes.value = s.areas.land.notes ?? "";
+
+        builderScore.value = s.areas.builder.score ?? "";
+        flagshipTool.value = s.areas.builder.flagshipTool ?? "";
+        shipDefinition.value = s.areas.builder.shipDefinition ?? "";
+        weeklyBuilderHours.value = s.areas.builder.weeklyBuilderHours ?? "";
+        builderNotes.value = s.areas.builder.notes ?? "";
+
+        mindScore.value = s.areas.mind.score ?? "";
+        anchorRitual.value = s.areas.mind.anchorRitual ?? "";
+        sleepTarget.value = s.areas.mind.sleepTarget ?? "";
+        infoDietRule.value = s.areas.mind.infoDietRule ?? "";
+        mindNotes.value = s.areas.mind.notes ?? "";
+
+        legacyScore.value = s.areas.legacy.score ?? "";
+        legacyArtifact.value = s.areas.legacy.legacyArtifact ?? "";
+        audience.value = s.areas.legacy.audience ?? "";
+        cadence.value = s.areas.legacy.cadence ?? "weekly";
+        legacyNotes.value = s.areas.legacy.notes ?? "";
+
+        // active tab
+        setActiveTab(s.meta.activeTab || "finance", false);
+
+        // checkin default date
+        ciDate.value = todayLocalDate();
+      };
+
+      const setActiveTab = (tabKey, persist=true) => {
+        tabs.forEach(t => {
+          const on = t.dataset.tab === tabKey;
+          t.classList.toggle("active", on);
+          t.setAttribute("aria-selected", String(on));
+        });
+        Object.entries(panels).forEach(([k, el]) => el.classList.toggle("active", k === tabKey));
+        if(persist){
+          state.meta.activeTab = tabKey;
+          save(state);
+        }
+      };
+
+      // ---------- Events: tabs ----------
+      tabs.forEach(t => {
+        t.addEventListener("click", () => setActiveTab(t.dataset.tab, true));
+      });
+
+      // ---------- Events: quarter chips ----------
+      quarterChips.forEach(ch => {
+        ch.addEventListener("click", () => {
+          const q = Number(ch.dataset.q);
+          state.meta.selectedQuarter = q;
+          msQuarter.value = String(q);
+          renderMeta(state);
+          renderOverview(state);
+          save(state);
+        });
+      });
+
+      // ---------- Auto-save wiring ----------
+      const wire = (el, getterSetter) => {
+        el.addEventListener("input", () => {
+          getterSetter(el.value);
+          save(state);
+        });
+        el.addEventListener("change", () => {
+          getterSetter(el.value);
+          save(state);
+        });
+      };
+
+      wire(yearTheme, v => state.overview.yearTheme = v);
+      wire(northStar, v => state.overview.northStar = v);
+
+      wire(financeScore, v => state.areas.finance.score = v);
+      wire(financeRule, v => state.areas.finance.rule = v);
+      wire(monthlyInflow, v => state.areas.finance.monthlyInflow = v);
+      wire(monthlyOutflow, v => state.areas.finance.monthlyOutflow = v);
+      wire(bufferMonths, v => state.areas.finance.bufferMonths = v);
+      wire(bufferNow, v => state.areas.finance.bufferNow = v);
+      wire(financeNotes, v => state.areas.finance.notes = v);
+
+      wire(landScore, v => state.areas.land.score = v);
+      wire(landRedLine, v => state.areas.land.redLine = v);
+      wire(targetRate, v => state.areas.land.targetRate = v);
+      wire(sellCapAcres, v => state.areas.land.sellCapAcres = v);
+      wire(landNotes, v => state.areas.land.notes = v);
+
+      wire(builderScore, v => state.areas.builder.score = v);
+      wire(flagshipTool, v => state.areas.builder.flagshipTool = v);
+      wire(shipDefinition, v => state.areas.builder.shipDefinition = v);
+      wire(weeklyBuilderHours, v => state.areas.builder.weeklyBuilderHours = v);
+      wire(builderNotes, v => state.areas.builder.notes = v);
+
+      wire(mindScore, v => state.areas.mind.score = v);
+      wire(anchorRitual, v => state.areas.mind.anchorRitual = v);
+      wire(sleepTarget, v => state.areas.mind.sleepTarget = v);
+      wire(infoDietRule, v => state.areas.mind.infoDietRule = v);
+      wire(mindNotes, v => state.areas.mind.notes = v);
+
+      wire(legacyScore, v => state.areas.legacy.score = v);
+      wire(legacyArtifact, v => state.areas.legacy.legacyArtifact = v);
+      wire(audience, v => state.areas.legacy.audience = v);
+      wire(cadence, v => state.areas.legacy.cadence = v);
+      wire(legacyNotes, v => state.areas.legacy.notes = v);
+
+      // ---------- Milestones ----------
+      btnAddMilestone.addEventListener("click", () => {
+        msQuarter.value = String(state.meta.selectedQuarter || 1);
+        msArea.value = state.meta.activeTab || "finance";
+        msTitle.value = "";
+        msDetail.value = "";
+        dlgMilestone.showModal();
+      });
+      btnCloseMilestone.addEventListener("click", () => dlgMilestone.close());
+
+      btnSaveMilestone.addEventListener("click", () => {
+        const title = String(msTitle.value || "").trim();
+        if(!title){
+          msTitle.focus();
+          return;
+        }
+        const m = {
+          id: cryptoId(),
+          quarter: Number(msQuarter.value),
+          area: msArea.value,
+          title,
+          detail: String(msDetail.value || "").trim(),
+          done: false,
+          createdAt: nowISO()
+        };
+        state.milestones.unshift(m);
+        save(state);
+        renderOverview(state);
+        dlgMilestone.close();
+      });
+
+      milestoneList.addEventListener("click", (e) => {
+        const btn = e.target.closest("button[data-act]");
+        if(!btn) return;
+        const id = btn.dataset.id;
+        const act = btn.dataset.act;
+        const idx = state.milestones.findIndex(m => m.id === id);
+        if(idx < 0) return;
+
+        if(act === "toggle"){
+          state.milestones[idx].done = !state.milestones[idx].done;
+        }
+        if(act === "del"){
+          state.milestones.splice(idx, 1);
+        }
+        save(state);
+        renderOverview(state);
+      });
+
+      // ---------- Check-ins ----------
+      btnWeeklyCheckin.addEventListener("click", () => {
+        ciDate.value = todayLocalDate();
+        ciWins.value = "";
+        ciDrag.value = "";
+        ciNext.value = "";
+        ciNotes.value = "";
+        renderCheckins(state);
+        dlgCheckin.showModal();
+      });
+      btnCloseCheckin.addEventListener("click", () => dlgCheckin.close());
+
+      btnSaveCheckin.addEventListener("click", () => {
+        const date = ciDate.value || todayLocalDate();
+        const checkin = {
+          id: cryptoId(),
+          date,
+          win: String(ciWins.value || "").trim(),
+          drag: String(ciDrag.value || "").trim(),
+          next: String(ciNext.value || "").trim(),
+          notes: String(ciNotes.value || "").trim(),
+          createdAt: nowISO()
+        };
+        state.checkins.unshift(checkin);
+        save(state);
+        renderOverview(state);
+        renderCheckins(state);
+        // keep open (feels nice), user can close
+      });
+
+      checkinList.addEventListener("click", (e) => {
+        const btn = e.target.closest("button[data-ci='del']");
+        if(!btn) return;
+        const id = btn.dataset.id;
+        const idx = state.checkins.findIndex(ci => ci.id === id);
+        if(idx < 0) return;
+        state.checkins.splice(idx, 1);
+        save(state);
+        renderOverview(state);
+        renderCheckins(state);
+      });
+
+      // ---------- Export / Import ----------
+      const openDataDialog = (mode) => {
+        if(mode === "export"){
+          dlgDataTitle.textContent = "Export";
+          dlgDataHint.textContent = "Copy/save JSON. Import later on the same or another machine.";
+          dlgDataHelp.textContent = "Tip: store this JSON safely (encrypted notes / secure drive).";
+          dataBox.value = JSON.stringify(state, null, 2);
+          btnApplyImport.style.display = "none";
+        }else{
+          dlgDataTitle.textContent = "Import";
+          dlgDataHint.textContent = "Paste JSON here and apply import.";
+          dlgDataHelp.textContent = "Warning: Import overwrites your current dashboard data.";
+          dataBox.value = "";
+          btnApplyImport.style.display = "inline-flex";
+        }
+        dlgData.showModal();
+        dataBox.focus();
+      };
+
+      btnExport.addEventListener("click", () => openDataDialog("export"));
+      btnImport.addEventListener("click", () => openDataDialog("import"));
+      btnCloseData.addEventListener("click", () => dlgData.close());
+
+      btnCopy.addEventListener("click", async () => {
+        try{
+          await navigator.clipboard.writeText(dataBox.value);
+          btnCopy.textContent = "Copied";
+          setTimeout(() => btnCopy.textContent = "Copy", 900);
+        }catch{
+          btnCopy.textContent = "Copy failed";
+          setTimeout(() => btnCopy.textContent = "Copy", 900);
+        }
+      });
+
+      btnApplyImport.addEventListener("click", () => {
+        try{
+          const parsed = JSON.parse(dataBox.value);
+          const merged = { ...defaultState(), ...parsed };
+          // minimal sanity
+          if(!merged.areas || !merged.meta) throw new Error("Invalid structure");
+          Object.assign(state, merged);
+          save(state);
+          hydrateFields(state);
+          renderOverview(state);
+          dlgData.close();
+        }catch{
+          dlgDataHint.textContent = "Import failed. Make sure the JSON is valid and complete.";
+        }
+      });
+
+      // ---------- Reset ----------
+      btnReset.addEventListener("click", () => {
+        const ok = confirm("Reset dashboard? This will erase everything in this browser.");
+        if(!ok) return;
+        const fresh = defaultState();
+        Object.assign(state, fresh);
+        save(state);
+        hydrateFields(state);
+        renderOverview(state);
+      });
+
+      // ---------- Initial paint ----------
+      function bootstrap(){
+        renderMeta(state);
+        hydrateFields(state);
+        renderOverview(state);
+      }
+
+      // ---------- Utilities ----------
+      function escapeHtml(str){
+        return String(str ?? "").replace(/[&<>"']/g, s => ({
+          "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+        }[s]));
+      }
+      function cryptoId(){
+        if(window.crypto && crypto.getRandomValues){
+          const a = new Uint32Array(3);
+          crypto.getRandomValues(a);
+          return Array.from(a).map(x => x.toString(16)).join("-");
+        }
+        return String(Math.random()).slice(2) + "-" + Date.now();
+      }
+
+      bootstrap();
+    })();
+  </script>
+</body>
+</html>
