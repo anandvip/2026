@@ -1,0 +1,1748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!--
+    @meta
+    project: Personal Treasury Account Circuit
+    version: 2026-05-20
+    generator: OpenAI ChatGPT
+    purpose: A decision-first webpage for designing a controlled monthly fund-flow system using FD payouts, bank accounts, SIPs, reserves, and auto-debits.
+    companion: Haryana Small Finance Bank FD Decision Guide
+
+    @prompt
+    Convert the prior account-circuit / tap-control strategy into a structured webpage that connects to the existing FD decision webpage. Make technically challenging terms easy to digest and useful for sound monthly financial decisions.
+
+    @readme
+    This is a single-file, GitHub Pages-ready HTML document.
+    It explains how to use bank accounts as purpose-based buckets:
+    1) Main Control Account
+    2) Monthly Expense Account
+    3) SIP / Investment Account
+    4) Emergency Reserve
+    5) Tax Buffer
+    6) FD Payout Accounts
+
+    It includes a monthly flow model, practical account rules, simple explanations of standing instructions, SIP mandates, UPI AutoPay, NACH/e-mandates, and a small calculator for monthly allocation planning.
+
+    Educational use only. Not financial, tax, or investment advice. Confirm bank features, charges, mandate rules, and tax applicability before implementing.
+  -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="generator" content="OpenAI ChatGPT">
+  <meta name="x-project-id" content="personal-treasury-account-circuit">
+  <meta name="x-created" content="2026-05-20">
+  <meta name="x-updated" content="2026-05-20">
+  <title>Personal Treasury Account Circuit | Monthly Fund Flow Strategy</title>
+  <style>
+    :root {
+      --bg: #f7f8fb;
+      --paper: #ffffff;
+      --ink: #14213d;
+      --muted: #5b6474;
+      --soft: #eef2f7;
+      --line: #d9e1ec;
+      --blue: #1d4ed8;
+      --blue-soft: #dbeafe;
+      --teal: #0f766e;
+      --teal-soft: #ccfbf1;
+      --amber: #b45309;
+      --amber-soft: #fef3c7;
+      --red: #b91c1c;
+      --red-soft: #fee2e2;
+      --green: #166534;
+      --green-soft: #dcfce7;
+      --purple: #6d28d9;
+      --purple-soft: #ede9fe;
+      --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+      --radius: 18px;
+      --max: 1120px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    body { overflow-x: hidden; }
+
+    img, svg, canvas, video, iframe {
+      max-width: 100%;
+      height: auto;
+    }
+
+    :where(section, .card, .bucket, .flow-box, .notice, .calculator, .table-wrap, .formula, .layout > div, main, header, footer) {
+      min-width: 0;
+    }
+
+    :where(p, li, td, th, h1, h2, h3, strong, span, a, summary) {
+      overflow-wrap: anywhere;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(29, 78, 216, 0.12), transparent 34rem),
+        radial-gradient(circle at 88% 18%, rgba(15, 118, 110, 0.11), transparent 30rem),
+        linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
+      line-height: 1.65;
+    }
+
+    a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    a:hover { text-decoration: underline; }
+
+    header {
+      background: linear-gradient(135deg, #102a63, #1d4ed8 58%, #0f766e);
+      color: #fff;
+      padding: 3rem 1.25rem 2.25rem;
+    }
+
+    .hero, main, footer .footer-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      max-width: 100%;
+      gap: 0.4rem;
+      padding: 0.35rem 0.7rem;
+      border: 1px solid rgba(255,255,255,0.28);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.10);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    h1 {
+      margin: 1rem 0 0.6rem;
+      max-width: 940px;
+      font-size: clamp(2rem, 5vw, 4rem);
+      line-height: 1.05;
+      letter-spacing: -0.05em;
+    }
+
+    .hero p {
+      max-width: 860px;
+      margin: 0.8rem 0 0;
+      color: rgba(255,255,255,0.88);
+      font-size: clamp(1rem, 2vw, 1.2rem);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.35rem;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      max-width: 100%;
+      padding: 0.78rem 1rem;
+      border-radius: 999px;
+      font-weight: 800;
+      border: 1px solid rgba(255,255,255,0.28);
+      background: rgba(255,255,255,0.14);
+      color: #fff;
+      min-height: 44px;
+      text-align: center;
+      white-space: normal;
+    }
+
+    .button.primary {
+      background: #fff;
+      color: #102a63;
+    }
+
+    .button:hover { text-decoration: none; filter: brightness(1.03); }
+
+    .meta-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.75rem;
+      margin-top: 2rem;
+    }
+
+    .meta-card {
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 16px;
+      padding: 0.85rem;
+      background: rgba(255,255,255,0.10);
+      min-height: 92px;
+    }
+
+    .meta-card strong {
+      display: block;
+      font-size: 1.05rem;
+    }
+
+    .meta-card span {
+      color: rgba(255,255,255,0.80);
+      font-size: 0.9rem;
+    }
+
+    .primer {
+      margin-top: 2rem;
+      max-width: 920px;
+    }
+
+    .primer-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.85rem;
+      color: rgba(255,255,255,0.84);
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+
+    .primer-label span:first-child {
+      color: #fff;
+    }
+
+    .primer-carousel {
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .primer-viewport {
+      width: 100%;
+      overflow: hidden;
+      border-radius: 26px;
+      border: 1px solid rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.08);
+      box-shadow: 0 18px 46px rgba(15, 23, 42, 0.18);
+    }
+
+    .primer-track {
+      display: flex;
+      width: 100%;
+      transition: transform 520ms ease;
+      will-change: transform;
+    }
+
+    .primer-slide {
+      flex: 0 0 100%;
+      min-width: 0;
+      padding: clamp(1.2rem, 4vw, 2rem);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.13), rgba(255,255,255,0.045)),
+        radial-gradient(circle at 85% 10%, rgba(13, 148, 136, 0.26), transparent 42%);
+    }
+
+    .primer-card {
+      min-height: clamp(170px, 28vw, 260px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 28px;
+      padding: clamp(1.15rem, 4vw, 2rem);
+      background: rgba(15, 23, 42, 0.12);
+      backdrop-filter: blur(6px);
+    }
+
+    .primer-card strong {
+      display: block;
+      color: #fff;
+      font-size: clamp(1.35rem, 5vw, 2.6rem);
+      line-height: 1.1;
+      letter-spacing: -0.035em;
+    }
+
+    .primer-card span {
+      display: block;
+      margin-top: 0.75rem;
+      max-width: 760px;
+      color: rgba(255,255,255,0.78);
+      font-size: clamp(1.05rem, 3.4vw, 1.85rem);
+      line-height: 1.45;
+    }
+
+    .primer-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 0.85rem;
+    }
+
+    .primer-dots {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+
+    .primer-dot {
+      width: 0.68rem;
+      height: 0.68rem;
+      min-height: 0;
+      padding: 0;
+      border: 1px solid rgba(255,255,255,0.45);
+      background: rgba(255,255,255,0.26);
+      border-radius: 999px;
+    }
+
+    .primer-dot[aria-current="true"] {
+      width: 1.75rem;
+      background: #fff;
+    }
+
+    .primer-nav {
+      display: flex;
+      gap: 0.55rem;
+      flex: 0 0 auto;
+    }
+
+    .primer-nav button {
+      width: 2.65rem;
+      height: 2.65rem;
+      min-height: 2.65rem;
+      padding: 0;
+      border: 1px solid rgba(255,255,255,0.28);
+      background: rgba(255,255,255,0.13);
+      color: #fff;
+      border-radius: 999px;
+      font-size: 1.15rem;
+    }
+
+    main {
+      padding: 2rem 1.25rem 3.5rem;
+    }
+
+    .notice {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+      padding: 1.2rem;
+      margin: -3rem 0 2rem;
+      position: relative;
+    }
+
+    .notice h2 {
+      margin: 0 0 0.35rem;
+      font-size: 1.25rem;
+    }
+
+    .notice p { margin: 0.35rem 0 0; color: var(--muted); }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: 1.25rem;
+      align-items: start;
+    }
+
+    nav {
+      position: sticky;
+      top: 1rem;
+      background: rgba(255,255,255,0.86);
+      border: 1px solid var(--line);
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+      border-radius: var(--radius);
+      padding: 1rem;
+      backdrop-filter: blur(10px);
+    }
+
+    nav h2 {
+      margin: 0 0 0.65rem;
+      font-size: 1rem;
+      letter-spacing: 0.02em;
+    }
+
+    nav a {
+      display: block;
+      padding: 0.5rem 0.6rem;
+      border-radius: 10px;
+      color: var(--ink);
+      font-size: 0.93rem;
+    }
+
+    nav a:hover {
+      background: var(--soft);
+      text-decoration: none;
+    }
+
+    section {
+      background: rgba(255,255,255,0.90);
+      border: 1px solid var(--line);
+      box-shadow: 0 8px 22px rgba(15, 23, 42, 0.055);
+      border-radius: var(--radius);
+      padding: clamp(1.1rem, 2.5vw, 1.75rem);
+      margin-bottom: 1.25rem;
+    }
+
+    section > h2 {
+      margin: 0 0 0.7rem;
+      color: var(--ink);
+      font-size: clamp(1.35rem, 3vw, 2rem);
+      line-height: 1.2;
+      letter-spacing: -0.025em;
+    }
+
+    h3 {
+      margin: 1.25rem 0 0.45rem;
+      color: var(--ink);
+      font-size: 1.15rem;
+    }
+
+    p { margin: 0.65rem 0; }
+
+    .lead {
+      font-size: 1.08rem;
+      color: #334155;
+      max-width: 820px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 1rem;
+    }
+
+    .card h3 { margin-top: 0; }
+
+    .plain-list, .check-list {
+      padding-left: 1.15rem;
+      margin: 0.6rem 0 0;
+    }
+
+    .plain-list li, .check-list li { margin: 0.45rem 0; }
+
+    .check-list { list-style: none; padding-left: 0; }
+
+    .check-list li {
+      display: flex;
+      gap: 0.55rem;
+      align-items: flex-start;
+    }
+
+    .check-list li::before {
+      content: "✓";
+      display: inline-grid;
+      place-items: center;
+      flex: 0 0 1.35rem;
+      height: 1.35rem;
+      border-radius: 999px;
+      background: var(--green-soft);
+      color: var(--green);
+      font-weight: 900;
+      margin-top: 0.1rem;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.25rem 0.55rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .tag.blue { background: var(--blue-soft); color: #1e40af; }
+    .tag.green { background: var(--green-soft); color: var(--green); }
+    .tag.teal { background: var(--teal-soft); color: var(--teal); }
+    .tag.amber { background: var(--amber-soft); color: var(--amber); }
+    .tag.red { background: var(--red-soft); color: var(--red); }
+    .tag.purple { background: var(--purple-soft); color: var(--purple); }
+
+    .flow {
+      display: grid;
+      gap: 0.75rem;
+      margin: 1.1rem 0;
+    }
+
+    .flow-row {
+      display: grid;
+      grid-template-columns: 1fr 52px 1fr;
+      gap: 0.75rem;
+      align-items: stretch;
+    }
+
+    .flow-box {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 1rem;
+      min-height: 92px;
+    }
+
+    .flow-box strong { display: block; font-size: 1.05rem; }
+    .flow-box span { display: block; color: var(--muted); font-size: 0.92rem; margin-top: 0.25rem; }
+
+    .arrow {
+      display: grid;
+      place-items: center;
+      color: var(--blue);
+      font-weight: 900;
+      font-size: 1.5rem;
+    }
+
+    .hub {
+      border: 2px solid rgba(29, 78, 216, 0.22);
+      background: linear-gradient(180deg, #ffffff, #eff6ff);
+    }
+
+    .bucket-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.75rem;
+      margin-top: 0.75rem;
+    }
+
+    .bucket {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 0.8rem;
+      min-height: 128px;
+    }
+
+    .bucket .icon {
+      width: 2.1rem;
+      height: 2.1rem;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      background: var(--soft);
+      margin-bottom: 0.45rem;
+      font-size: 1.1rem;
+    }
+
+    .bucket strong { display: block; line-height: 1.25; }
+    .bucket span { display: block; color: var(--muted); font-size: 0.88rem; margin-top: 0.35rem; }
+
+    .table-wrap {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin-top: 1rem;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 760px;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 0.85rem 0.9rem;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+
+    th {
+      background: #f1f5f9;
+      color: #0f172a;
+      font-size: 0.9rem;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .formula {
+      background: #0f172a;
+      color: #e2e8f0;
+      border-radius: 16px;
+      padding: 1rem;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 0.95rem;
+      line-height: 1.55;
+      margin: 1rem 0;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 0.72fr);
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .calculator {
+      background: linear-gradient(180deg, #ffffff, #f8fafc);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 1rem;
+    }
+
+    label {
+      display: block;
+      font-weight: 800;
+      color: #0f172a;
+      margin: 0.75rem 0 0.3rem;
+      font-size: 0.92rem;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 0.75rem;
+      font: inherit;
+      color: var(--ink);
+      background: #fff;
+      min-height: 44px;
+    }
+
+    input:focus, select:focus, textarea:focus, button:focus-visible, a:focus-visible {
+      outline: 3px solid rgba(29, 78, 216, 0.30);
+      outline-offset: 2px;
+    }
+
+    .calc-result {
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: 14px;
+      background: var(--blue-soft);
+      border: 1px solid rgba(29, 78, 216, 0.20);
+    }
+
+    .calc-result strong {
+      display: block;
+      font-size: 1.5rem;
+      color: #1e40af;
+      line-height: 1.2;
+    }
+
+    .calc-result span {
+      display: block;
+      color: #334155;
+      margin-top: 0.25rem;
+    }
+
+    .warning {
+      background: var(--amber-soft);
+      border: 1px solid rgba(180, 83, 9, 0.22);
+      color: #713f12;
+      border-radius: 16px;
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+
+    .danger {
+      background: var(--red-soft);
+      border: 1px solid rgba(185, 28, 28, 0.22);
+      color: #7f1d1d;
+      border-radius: 16px;
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+
+    details {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 14px;
+      padding: 0.75rem 0.9rem;
+      margin: 0.75rem 0;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 900;
+      color: #0f172a;
+    }
+
+    details p { color: var(--muted); }
+
+    .print-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      margin-top: 1rem;
+    }
+
+    button {
+      cursor: pointer;
+      border: 0;
+      border-radius: 999px;
+      padding: 0.78rem 1rem;
+      font: inherit;
+      font-weight: 900;
+      background: var(--blue);
+      color: #fff;
+      min-height: 44px;
+    }
+
+    button.secondary {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    .small {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      background: #fff;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      padding: 1.5rem 1.25rem;
+    }
+
+    footer p { margin: 0.35rem 0; }
+
+    @media (max-width: 980px) {
+      .meta-row, .grid.three { grid-template-columns: repeat(2, 1fr); }
+      .layout { grid-template-columns: 1fr; }
+      nav { position: static; }
+      .bucket-grid { grid-template-columns: repeat(2, 1fr); }
+      .split { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 680px) {
+      header {
+        padding: 2.2rem 1rem 2rem;
+      }
+
+      .hero-actions,
+      .print-actions {
+        flex-direction: column;
+      }
+
+      .hero-actions .button,
+      .print-actions button {
+        width: 100%;
+      }
+
+      .primer {
+        margin-top: 1.5rem;
+      }
+
+      .primer-label {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
+      .primer-viewport {
+        border-radius: 20px;
+      }
+
+      .primer-slide {
+        padding: 0.8rem;
+      }
+
+      .primer-card {
+        border-radius: 20px;
+        min-height: 190px;
+      }
+
+      .primer-controls {
+        align-items: center;
+      }
+
+      .meta-row,
+      .grid,
+      .grid.three,
+      .bucket-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .notice {
+        margin-top: -2rem;
+      }
+
+      .flow-row {
+        grid-template-columns: 1fr;
+      }
+
+      .arrow {
+        transform: rotate(90deg);
+        min-height: 18px;
+      }
+
+      main {
+        padding-left: 0.85rem;
+        padding-right: 0.85rem;
+      }
+
+      section,
+      .notice,
+      .card,
+      .bucket,
+      .flow-box,
+      .calculator,
+      details,
+      .warning,
+      .danger {
+        border-radius: 14px;
+      }
+
+      section {
+        padding: 1rem;
+      }
+
+      .table-wrap {
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        overflow-x: visible;
+      }
+
+      table {
+        min-width: 0;
+        border-collapse: separate;
+        border-spacing: 0;
+      }
+
+      thead {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        white-space: nowrap;
+      }
+
+      tbody,
+      tr,
+      td {
+        display: block;
+        width: 100%;
+      }
+
+      tr {
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        margin-bottom: 0.85rem;
+        background: #fff;
+        overflow: hidden;
+      }
+
+      td {
+        display: grid;
+        grid-template-columns: minmax(7.5rem, 42%) minmax(0, 1fr);
+        gap: 0.75rem;
+        align-items: start;
+        padding: 0.78rem;
+        border-bottom: 1px solid var(--line);
+      }
+
+      td::before {
+        content: attr(data-label);
+        color: #475569;
+        font-weight: 900;
+        line-height: 1.35;
+      }
+
+      td:last-child {
+        border-bottom: 0;
+      }
+    }
+
+    @media (max-width: 430px) {
+      header {
+        padding-left: 0.85rem;
+        padding-right: 0.85rem;
+      }
+
+      main {
+        padding-left: 0.7rem;
+        padding-right: 0.7rem;
+      }
+
+      section,
+      .notice {
+        padding: 0.85rem;
+      }
+
+      .eyebrow {
+        border-radius: 14px;
+      }
+
+      table {
+        font-size: 0.9rem;
+      }
+
+      td {
+        grid-template-columns: 1fr;
+        gap: 0.35rem;
+        padding: 0.72rem;
+      }
+
+      td::before {
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+      }
+
+      .formula {
+        font-size: 0.85rem;
+      }
+    }
+
+    @media print {
+      body { background: #fff; }
+      header { background: #fff; color: #000; border-bottom: 1px solid #ccc; }
+      .hero p, .meta-card span { color: #333; }
+      .eyebrow, .meta-card, section, .notice, nav, .card, .bucket, .flow-box, .calculator, .warning, .danger, details {
+        box-shadow: none;
+        break-inside: avoid;
+      }
+      .hero-actions, nav, .print-actions, .primer-controls { display: none; }
+      .layout { display: block; }
+      section { margin-bottom: 1rem; }
+      a { color: #000; text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="hero">
+      <span class="eyebrow">Personal treasury system · FD income · SIP control</span>
+      <h1>Build a circuit of accounts and control monthly money flow like a tap.</h1>
+      <p>
+        A structured way to receive FD payouts, pension, farm income, or other inflows into one control point,
+        then route money into expenses, SIPs, emergency reserves, tax buffers, and long-term buckets without losing visibility.
+      </p>
+      <div class="hero-actions">
+        <a class="button primary" href="#circuit">View the circuit</a>
+        <a class="button" href="#calculator">Use allocation calculator</a>
+        <a class="button" href="haryana-sfb-fd-decision-guide.html">Open FD guide</a>
+      </div>
+      <div class="primer" aria-label="Before reading summary carousel">
+        <div class="primer-label">
+          <span>Before you use the system, read this first.</span>
+          <span>Four ideas that make the whole page easier to understand.</span>
+        </div>
+
+        <div class="primer-carousel" data-carousel>
+          <div class="primer-viewport">
+            <div class="primer-track">
+              <article class="primer-slide" aria-label="Goal">
+                <div class="primer-card">
+                  <strong>Goal</strong>
+                  <span>Monthly control, not random cash movement</span>
+                </div>
+              </article>
+              <article class="primer-slide" aria-label="Core idea">
+                <div class="primer-card">
+                  <strong>Core idea</strong>
+                  <span>Accounts behave like financial valves</span>
+                </div>
+              </article>
+              <article class="primer-slide" aria-label="Main risk">
+                <div class="primer-card">
+                  <strong>Main risk</strong>
+                  <span>Invisible auto-debits and poor tracking</span>
+                </div>
+              </article>
+              <article class="primer-slide" aria-label="Best use">
+                <div class="primer-card">
+                  <strong>Best use</strong>
+                  <span>FD payouts, SIPs, reserves, tax buffers</span>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <div class="primer-controls" aria-label="Carousel controls">
+            <div class="primer-dots" role="tablist" aria-label="Primer slides"></div>
+            <div class="primer-nav">
+              <button type="button" data-carousel-prev aria-label="Previous primer slide">‹</button>
+              <button type="button" data-carousel-next aria-label="Next primer slide">›</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="notice">
+      <h2>Decision-first summary</h2>
+      <p>
+        This page is the operating layer above the FD decision page. The FD page helps decide <strong>where money earns</strong>.
+        This page helps decide <strong>how money flows every month</strong> after it starts earning.
+      </p>
+    </div>
+
+    <div class="layout">
+      <nav aria-label="Page navigation">
+        <h2>Sections</h2>
+        <a href="#meaning">1. What this means</a>
+        <a href="#circuit">2. Account circuit</a>
+        <a href="#roles">3. Account roles</a>
+        <a href="#monthly-cycle">4. Monthly rhythm</a>
+        <a href="#mandates">5. Mandate register</a>
+        <a href="#sip-control">6. SIP tap control</a>
+        <a href="#calculator">7. Calculator</a>
+        <a href="#terms">8. Terms explained</a>
+        <a href="#guardrails">9. Guardrails</a>
+        <a href="#implementation">10. Implementation checklist</a>
+      </nav>
+
+      <div>
+        <section id="meaning">
+          <h2>1. What this strategy means</h2>
+          <p class="lead">
+            Instead of letting all money enter one bank account and then get pulled in many directions, you create a small
+            <strong>financial control room</strong>. Each account has one job. Each automated payment has one assigned source.
+          </p>
+
+          <div class="grid">
+            <div class="card">
+              <h3>In plain words</h3>
+              <p>
+                Your money behaves like water in pipes. Income flows into a central tank. From there, you open or close small taps
+                for household spending, SIPs, tax, reserves, and emergency use.
+              </p>
+            </div>
+            <div class="card">
+              <h3>Why it matters</h3>
+              <p>
+                The goal is not to create complexity. The goal is to prevent silent leakage, accidental over-investing,
+                missed tax buffers, and emotional decision-making during a tight month.
+              </p>
+            </div>
+          </div>
+
+          <div class="warning">
+            <strong>Core principle:</strong> Automation should serve your plan. It should not take control away from you.
+          </div>
+        </section>
+
+        <section id="circuit">
+          <h2>2. The account circuit</h2>
+          <p>
+            The best structure is usually not “one account for everything.” A cleaner structure is one control account plus
+            purpose-based accounts.
+          </p>
+
+          <div class="flow" aria-label="Fund-flow circuit diagram">
+            <div class="flow-row">
+              <div class="flow-box">
+                <strong>Income sources</strong>
+                <span>FD monthly payout, pension, farm income, rent, business income, maturity proceeds</span>
+              </div>
+              <div class="arrow">→</div>
+              <div class="flow-box hub">
+                <strong>Main Control Account</strong>
+                <span>The central valve. Avoid random auto-debits here.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="bucket-grid">
+            <div class="bucket">
+              <div class="icon">🏠</div>
+              <strong>Expense account</strong>
+              <span>UPI, debit card, groceries, bills, household spending.</span>
+            </div>
+            <div class="bucket">
+              <div class="icon">📈</div>
+              <strong>SIP account</strong>
+              <span>Only SIPs and investment mandates debit from here.</span>
+            </div>
+            <div class="bucket">
+              <div class="icon">🛡️</div>
+              <strong>Emergency reserve</strong>
+              <span>Medical, family, urgent repairs. No casual spending.</span>
+            </div>
+            <div class="bucket">
+              <div class="icon">🧾</div>
+              <strong>Tax buffer</strong>
+              <span>TDS gaps, advance tax, CA filing, yearly tax settlement.</span>
+            </div>
+            <div class="bucket">
+              <div class="icon">💧</div>
+              <strong>Surplus / reserve</strong>
+              <span>Unassigned money waiting for a conscious decision.</span>
+            </div>
+          </div>
+
+          <div class="formula">
+Income → Main Control Account → Purpose Accounts → Assigned Payments
+
+FD interest/pension/farm income
+        ↓
+Main Control Account
+        ↓
+Expense + SIP + Emergency + Tax + Reserve
+          </div>
+        </section>
+
+        <section id="roles">
+          <h2>3. Give each account one clear role</h2>
+          <p>
+            The more roles one account has, the harder it becomes to understand what is happening. The cleaner method is to name
+            the job of each account before activating auto-debits.
+          </p>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Account / bucket</th>
+                  <th>Main job</th>
+                  <th>Auto-debit allowed?</th>
+                  <th>Plain decision rule</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Main Control Account</strong></td>
+                  <td>Receives all major inflows and distributes money.</td>
+                  <td><span class="tag red">Avoid</span></td>
+                  <td>Keep this clean. Do not allow random SIPs, EMIs, cards, or subscriptions to pull from it.</td>
+                </tr>
+                <tr>
+                  <td><strong>Monthly Expense Account</strong></td>
+                  <td>Runs household spending and regular bills.</td>
+                  <td><span class="tag green">Yes</span></td>
+                  <td>Only keep the amount you are comfortable spending for the month.</td>
+                </tr>
+                <tr>
+                  <td><strong>SIP / Investment Account</strong></td>
+                  <td>Funds mutual fund SIPs and investment mandates.</td>
+                  <td><span class="tag green">Yes</span></td>
+                  <td>SIPs should debit from this account only, so investments are easy to pause or reduce.</td>
+                </tr>
+                <tr>
+                  <td><strong>Emergency Reserve</strong></td>
+                  <td>Provides family safety during medical, repair, or urgent liquidity events.</td>
+                  <td><span class="tag red">No</span></td>
+                  <td>No UPI, no shopping, no SIPs. This account exists to stay boring.</td>
+                </tr>
+                <tr>
+                  <td><strong>Tax Buffer</strong></td>
+                  <td>Collects money for tax, TDS gaps, filing, and advance-tax needs.</td>
+                  <td><span class="tag amber">Limited</span></td>
+                  <td>Use only for tax-related payments or transfers to CA/tax portal.</td>
+                </tr>
+                <tr>
+                  <td><strong>SFB / FD Payout Account</strong></td>
+                  <td>Receives monthly FD interest from a Small Finance Bank or other bank.</td>
+                  <td><span class="tag amber">Controlled</span></td>
+                  <td>Prefer automatic transfer into the Main Control Account if the bank supports it.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="monthly-cycle">
+          <h2>4. Monthly rhythm: how the money should move</h2>
+          <p>
+            A fund-flow system becomes powerful when it has dates. Dates turn intention into a repeatable routine.
+          </p>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date window</th>
+                  <th>Action</th>
+                  <th>Why it matters</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>1st–3rd</strong></td>
+                  <td>FD payout, pension, rent, or other predictable income lands.</td>
+                  <td>Start the month with visible inflow.</td>
+                </tr>
+                <tr>
+                  <td><strong>3rd–5th</strong></td>
+                  <td>Move fixed household amount into the Expense Account.</td>
+                  <td>Spending becomes bounded.</td>
+                </tr>
+                <tr>
+                  <td><strong>4th–7th</strong></td>
+                  <td>Move SIP allocation into the SIP Account.</td>
+                  <td>Investing becomes deliberate, not accidental.</td>
+                </tr>
+                <tr>
+                  <td><strong>5th–15th</strong></td>
+                  <td>SIPs and investment mandates debit from the SIP Account.</td>
+                  <td>Mandates have a clear funding source.</td>
+                </tr>
+                <tr>
+                  <td><strong>10th–15th</strong></td>
+                  <td>Transfer tax buffer and emergency reserve amount.</td>
+                  <td>Annual obligations are prepared monthly.</td>
+                </tr>
+                <tr>
+                  <td><strong>20th–25th</strong></td>
+                  <td>Review balances and decide next month’s tap settings.</td>
+                  <td>You can pause, reduce, or increase allocations before the next cycle.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="mandates">
+          <h2>5. Mandate register: the anti-leakage tool</h2>
+          <p>
+            A mandate is permission you give for money to be pulled automatically. A mandate register is simply a list of all such permissions.
+            Without this list, auto-debits become invisible.
+          </p>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Mandate</th>
+                  <th>Amount</th>
+                  <th>Debit account</th>
+                  <th>Date</th>
+                  <th>Pause/revoke?</th>
+                  <th>Priority</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Large-cap index SIP</td>
+                  <td>₹10,000</td>
+                  <td>SIP Account</td>
+                  <td>5th</td>
+                  <td>Pause available</td>
+                  <td><span class="tag green">High</span></td>
+                </tr>
+                <tr>
+                  <td>Flexi-cap SIP</td>
+                  <td>₹5,000</td>
+                  <td>SIP Account</td>
+                  <td>10th</td>
+                  <td>Pause/cancel available</td>
+                  <td><span class="tag blue">Medium</span></td>
+                </tr>
+                <tr>
+                  <td>Health insurance</td>
+                  <td>Annual / monthly</td>
+                  <td>Expense Account</td>
+                  <td>As scheduled</td>
+                  <td>Do not casually stop</td>
+                  <td><span class="tag red">Critical</span></td>
+                </tr>
+                <tr>
+                  <td>Credit card autopay</td>
+                  <td>Variable</td>
+                  <td>Expense Account</td>
+                  <td>Before due date</td>
+                  <td>Modify carefully</td>
+                  <td><span class="tag red">Critical</span></td>
+                </tr>
+                <tr>
+                  <td>OTT / apps / subscriptions</td>
+                  <td>₹199–₹999</td>
+                  <td>Expense Account</td>
+                  <td>Various</td>
+                  <td>Easy to cancel</td>
+                  <td><span class="tag amber">Low</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="danger">
+            <strong>Rule:</strong> every auto-debit must answer three questions: What is it for? Which account does it pull from? Can it be paused or revoked?
+          </div>
+        </section>
+
+        <section id="sip-control">
+          <h2>6. SIP tap control</h2>
+          <p>
+            SIP control does not mean randomly stopping investments whenever emotions change. It means designing a monthly mechanism
+            where your investment flow can be adjusted without disturbing household liquidity.
+          </p>
+
+          <div class="grid three">
+            <div class="card">
+              <span class="tag green">Preferred</span>
+              <h3>Fund the SIP account monthly</h3>
+              <p>Move only the planned SIP amount into the SIP Account. SIPs debit from there. This keeps investments bounded.</p>
+            </div>
+            <div class="card">
+              <span class="tag amber">Use carefully</span>
+              <h3>Pause SIP formally</h3>
+              <p>Use the AMC/platform pause feature where available. This is cleaner than letting debits fail.</p>
+            </div>
+            <div class="card">
+              <span class="tag red">Avoid</span>
+              <h3>Let SIPs fail due to low balance</h3>
+              <p>This may create failed-debit charges, tracking confusion, and avoidable stress.</p>
+            </div>
+          </div>
+
+          <h3>A simple allocation ladder</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Month condition</th>
+                  <th>SIP action</th>
+                  <th>Reason</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Normal month</td>
+                  <td>Run full SIP allocation.</td>
+                  <td>Compounding continues smoothly.</td>
+                </tr>
+                <tr>
+                  <td>Heavy expense month</td>
+                  <td>Reduce discretionary SIPs, protect essential expenses.</td>
+                  <td>Avoid borrowing for routine cash flow.</td>
+                </tr>
+                <tr>
+                  <td>Medical/legal/emergency month</td>
+                  <td>Pause lower-priority SIPs formally.</td>
+                  <td>Liquidity becomes more important than forced investing.</td>
+                </tr>
+                <tr>
+                  <td>Surplus month</td>
+                  <td>Add lump sum or increase next month’s SIP account transfer.</td>
+                  <td>Surplus is deployed consciously.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="calculator">
+          <h2>7. Monthly allocation calculator</h2>
+          <p>
+            Use this to roughly plan how incoming money should be divided. It is not an investment calculator; it is a
+            monthly routing calculator.
+          </p>
+
+          <div class="split">
+            <div>
+              <h3>How to use</h3>
+              <ul class="check-list">
+                <li>Enter expected monthly inflow from FD interest, pension, farm income, rent, or other sources.</li>
+                <li>Enter planned percentages for expense, SIP, emergency, tax, and reserve.</li>
+                <li>Keep the total close to 100%. If it crosses 100%, your plan is over-allocated.</li>
+              </ul>
+              <div class="warning">
+                <strong>Practical note:</strong> do not allocate every rupee aggressively. A small unassigned reserve prevents stress.
+              </div>
+            </div>
+
+            <div class="calculator" aria-label="Monthly allocation calculator">
+              <label for="monthlyInflow">Expected monthly inflow</label>
+              <input id="monthlyInflow" type="number" min="0" step="100" value="100000" inputmode="decimal">
+
+              <label for="expensePct">Expense account %</label>
+              <input id="expensePct" type="number" min="0" max="100" step="1" value="55">
+
+              <label for="sipPct">SIP account %</label>
+              <input id="sipPct" type="number" min="0" max="100" step="1" value="20">
+
+              <label for="emergencyPct">Emergency reserve %</label>
+              <input id="emergencyPct" type="number" min="0" max="100" step="1" value="10">
+
+              <label for="taxPct">Tax buffer %</label>
+              <input id="taxPct" type="number" min="0" max="100" step="1" value="5">
+
+              <label for="reservePct">Surplus / reserve %</label>
+              <input id="reservePct" type="number" min="0" max="100" step="1" value="10">
+
+              <div class="calc-result" id="calcResult" aria-live="polite">
+                <strong>₹1,00,000</strong>
+                <span>Enter values to see allocation.</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="terms">
+          <h2>8. Terms explained without jargon</h2>
+
+          <details open>
+            <summary>Standing instruction</summary>
+            <p>
+              A scheduled instruction to your bank: “Transfer this amount every month on this date.” Useful for moving money
+              from the Main Control Account to Expense, SIP, Tax, or Reserve accounts.
+            </p>
+          </details>
+
+          <details>
+            <summary>NACH / e-mandate</summary>
+            <p>
+              A formal permission that allows an institution, such as a mutual fund company, insurer, or lender, to pull money
+              from your bank account on scheduled dates. Powerful, but it must be tracked.
+            </p>
+          </details>
+
+          <details>
+            <summary>UPI AutoPay</summary>
+            <p>
+              A recurring UPI payment setup for subscriptions, bills, SIPs, or other repeat payments. Convenient, but review
+              the mandate section of your UPI app regularly.
+            </p>
+          </details>
+
+          <details>
+            <summary>Monthly payout FD</summary>
+            <p>
+              A fixed deposit where interest is paid out every month instead of being reinvested. It can create a monthly income stream,
+              but the monthly amount may be slightly adjusted because banks usually calculate interest on a quarterly basis and pay monthly by discounting.
+            </p>
+          </details>
+
+          <details>
+            <summary>Control account</summary>
+            <p>
+              The central bank account where money first arrives before being routed elsewhere. This account should be clean,
+              reviewed monthly, and protected from random auto-debits.
+            </p>
+          </details>
+
+          <details>
+            <summary>Tap control</summary>
+            <p>
+              Your ability to increase, reduce, pause, or redirect monthly allocations without disturbing the whole financial system.
+              Good tap control depends on separate accounts and a mandate register.
+            </p>
+          </details>
+        </section>
+
+        <section id="guardrails">
+          <h2>9. Guardrails before you automate</h2>
+          <p>
+            Automation can make finances calm, but careless automation can hide mistakes. Use these safeguards before turning on any recurring flow.
+          </p>
+
+          <div class="grid">
+            <div class="card">
+              <h3>Do this</h3>
+              <ul class="check-list">
+                <li>Keep a written mandate register.</li>
+                <li>Use one account per major role.</li>
+                <li>Set calendar reminders before major debit dates.</li>
+                <li>Keep emergency reserve free from auto-debits.</li>
+                <li>Review the flow once every month.</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>Avoid this</h3>
+              <ul class="plain-list">
+                <li>All SIPs, EMIs, cards, and subscriptions from one main account.</li>
+                <li>Relying on memory for mandate dates.</li>
+                <li>Letting SIPs fail instead of pausing them properly.</li>
+                <li>Using the emergency account for regular UPI spending.</li>
+                <li>Chasing higher FD rates without checking payout and transfer mechanics.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="danger">
+            <strong>Cyber-safety reminder:</strong> never share OTPs, never install APKs from links, never use screen-sharing apps for banking help,
+            and do not trust random customer-care numbers found through search results or forwarded messages.
+          </div>
+        </section>
+
+        <section id="implementation">
+          <h2>10. Implementation checklist</h2>
+          <p>
+            Use this as a practical setup sequence. Do not activate all automation on the same day. Build it gradually.
+          </p>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Step</th>
+                  <th>Action</th>
+                  <th>Decision question</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>Choose Main Control Account.</td>
+                  <td>Which bank has the best visibility and service comfort?</td>
+                  <td>□ Pending</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>Choose Expense Account.</td>
+                  <td>Where should UPI/debit card spending happen?</td>
+                  <td>□ Pending</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>Choose SIP Account.</td>
+                  <td>Which account should all SIP mandates debit from?</td>
+                  <td>□ Pending</td>
+                </tr>
+                <tr>
+                  <td>4</td>
+                  <td>Mark Emergency Reserve Account.</td>
+                  <td>Which account will not be touched casually?</td>
+                  <td>□ Pending</td>
+                </tr>
+                <tr>
+                  <td>5</td>
+                  <td>Create Tax Buffer Account or ledger bucket.</td>
+                  <td>Where will tax/TDS/advance tax money wait?</td>
+                  <td>□ Pending</td>
+                </tr>
+                <tr>
+                  <td>6</td>
+                  <td>List every SIP, EMI, insurance, card, and subscription mandate.</td>
+                  <td>Can every auto-debit be paused, changed, or cancelled?</td>
+                  <td>□ Pending</td>
+                </tr>
+                <tr>
+                  <td>7</td>
+                  <td>Set standing instructions gradually.</td>
+                  <td>What date and amount should move every month?</td>
+                  <td>□ Pending</td>
+                </tr>
+                <tr>
+                  <td>8</td>
+                  <td>Review after one full cycle.</td>
+                  <td>Did the system reduce stress or create friction?</td>
+                  <td>□ Pending</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="print-actions">
+            <button type="button" id="printPage">Print / save as PDF</button>
+            <button type="button" class="secondary" id="resetCalculator">Reset calculator</button>
+          </div>
+
+          <p class="small">
+            This page is a strategy document, not a bank instruction form. Confirm account rules, charges, transfer limits,
+            and mandate features with the respective bank or platform before implementation.
+          </p>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <p><strong>Personal Treasury Account Circuit</strong> · Created 2026 · Prepared as a companion to the FD decision guide.</p>
+      <p>Educational planning page. Verify bank features, tax rules, and mandate controls before acting.</p>
+    </div>
+  </footer>
+
+  <script type="module">
+    const formatter = new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR',
+      maximumFractionDigits: 0
+    });
+
+    const ids = ['monthlyInflow', 'expensePct', 'sipPct', 'emergencyPct', 'taxPct', 'reservePct'];
+    const inputs = ids.map((id) => document.getElementById(id));
+    const result = document.getElementById('calcResult');
+    const storageKey = 'personal-treasury-circuit:calculator:v1';
+
+    function initPrimerCarousel() {
+      const carousel = document.querySelector('[data-carousel]');
+      if (!carousel) return;
+
+      const track = carousel.querySelector('.primer-track');
+      const slides = Array.from(carousel.querySelectorAll('.primer-slide'));
+      const dotsWrap = carousel.querySelector('.primer-dots');
+      const prev = carousel.querySelector('[data-carousel-prev]');
+      const next = carousel.querySelector('[data-carousel-next]');
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (!track || !slides.length || !dotsWrap || !prev || !next) return;
+
+      let index = 0;
+      let timer = null;
+
+      const dots = slides.map((slide, slideIndex) => {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'primer-dot';
+        dot.setAttribute('role', 'tab');
+        dot.setAttribute('aria-label', `Show primer slide ${slideIndex + 1}: ${slide.getAttribute('aria-label') || ''}`);
+        dot.addEventListener('click', () => {
+          goTo(slideIndex);
+          restart();
+        });
+        dotsWrap.appendChild(dot);
+        return dot;
+      });
+
+      function goTo(nextIndex) {
+        index = (nextIndex + slides.length) % slides.length;
+        track.style.transform = `translateX(-${index * 100}%)`;
+        dots.forEach((dot, dotIndex) => {
+          dot.setAttribute('aria-current', dotIndex === index ? 'true' : 'false');
+        });
+      }
+
+      function stop() {
+        if (timer) window.clearInterval(timer);
+        timer = null;
+      }
+
+      function start() {
+        if (prefersReducedMotion || timer) return;
+        timer = window.setInterval(() => goTo(index + 1), 4200);
+      }
+
+      function restart() {
+        stop();
+        start();
+      }
+
+      prev.addEventListener('click', () => {
+        goTo(index - 1);
+        restart();
+      });
+
+      next.addEventListener('click', () => {
+        goTo(index + 1);
+        restart();
+      });
+
+      carousel.addEventListener('pointerenter', stop);
+      carousel.addEventListener('pointerleave', start);
+      carousel.addEventListener('focusin', stop);
+      carousel.addEventListener('focusout', start);
+
+      goTo(0);
+      start();
+    }
+
+    function applyResponsiveTableLabels() {
+      document.querySelectorAll('table').forEach((table) => {
+        const headers = Array.from(table.querySelectorAll('thead th')).map((header) =>
+          header.textContent.trim()
+        );
+
+        table.querySelectorAll('tbody tr').forEach((row) => {
+          Array.from(row.children).forEach((cell, index) => {
+            cell.setAttribute('data-label', headers[index] || '');
+          });
+        });
+      });
+    }
+
+    function safeNumber(value) {
+      const number = Number(value);
+      return Number.isFinite(number) && number >= 0 ? number : 0;
+    }
+
+    function loadSavedValues() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(storageKey) || '{}');
+        ids.forEach((id) => {
+          if (saved[id] !== undefined) {
+            document.getElementById(id).value = saved[id];
+          }
+        });
+      } catch (error) {
+        console.warn('Could not load saved calculator values.', error);
+      }
+    }
+
+    function saveValues() {
+      const data = {};
+      ids.forEach((id) => {
+        data[id] = document.getElementById(id).value;
+      });
+      localStorage.setItem(storageKey, JSON.stringify(data));
+    }
+
+    function calculate() {
+      const inflow = safeNumber(document.getElementById('monthlyInflow').value);
+      const percentages = {
+        expense: safeNumber(document.getElementById('expensePct').value),
+        sip: safeNumber(document.getElementById('sipPct').value),
+        emergency: safeNumber(document.getElementById('emergencyPct').value),
+        tax: safeNumber(document.getElementById('taxPct').value),
+        reserve: safeNumber(document.getElementById('reservePct').value)
+      };
+
+      const totalPct = Object.values(percentages).reduce((sum, value) => sum + value, 0);
+      const allocation = Object.fromEntries(
+        Object.entries(percentages).map(([key, pct]) => [key, Math.round(inflow * pct / 100)])
+      );
+
+      const status = totalPct === 100
+        ? 'Balanced at 100%.'
+        : totalPct > 100
+          ? `Over-allocated by ${totalPct - 100}%. Reduce one or more taps.`
+          : `Unassigned room: ${100 - totalPct}%. This can remain as buffer.`;
+
+      result.innerHTML = `
+        <strong>${formatter.format(inflow)}</strong>
+        <span><b>Expense:</b> ${formatter.format(allocation.expense)} · <b>SIP:</b> ${formatter.format(allocation.sip)}</span>
+        <span><b>Emergency:</b> ${formatter.format(allocation.emergency)} · <b>Tax:</b> ${formatter.format(allocation.tax)} · <b>Reserve:</b> ${formatter.format(allocation.reserve)}</span>
+        <span><b>Total allocation:</b> ${totalPct}% · ${status}</span>
+      `;
+
+      result.style.background = totalPct > 100 ? 'var(--red-soft)' : totalPct === 100 ? 'var(--green-soft)' : 'var(--blue-soft)';
+      saveValues();
+    }
+
+    initPrimerCarousel();
+    applyResponsiveTableLabels();
+    loadSavedValues();
+    inputs.forEach((input) => input.addEventListener('input', calculate));
+    calculate();
+
+    document.getElementById('printPage').addEventListener('click', () => window.print());
+
+    document.getElementById('resetCalculator').addEventListener('click', () => {
+      localStorage.removeItem(storageKey);
+      const defaults = {
+        monthlyInflow: 100000,
+        expensePct: 55,
+        sipPct: 20,
+        emergencyPct: 10,
+        taxPct: 5,
+        reservePct: 10
+      };
+      Object.entries(defaults).forEach(([id, value]) => {
+        document.getElementById(id).value = value;
+      });
+      calculate();
+    });
+  </script>
+</body>
+</html>
