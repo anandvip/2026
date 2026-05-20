@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!--
+    @meta
+    project: Haryana Small Finance Bank FD Decision Guide
+    version: 2026-05-20
+    generator: OpenAI ChatGPT
+    purpose: A plain-language, decision-first guide for comparing Small Finance Bank FDs in/near Haryana.
+    note: Rates change frequently. Verify on the bank's official website or branch on the booking day.
+
+    @readme
+    This single-file page is designed to help a retail depositor compare Small Finance Bank fixed deposits.
+    It explains difficult banking terms in simple language and gives a safer decision framework:
+    1) Do not chase rate alone.
+    2) Check DICGC coverage.
+    3) Prefer branch access for larger deposits.
+    4) Understand tax/TDS and premature withdrawal rules.
+    5) Verify rates before booking.
+
+    Sources are listed at the bottom of the page. This page is educational, not financial advice.
+  -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="generator" content="OpenAI ChatGPT">
+  <meta name="x-project-id" content="haryana-sfb-fd-decision-guide">
+  <meta name="x-created" content="2026-05-20">
+  <meta name="x-updated" content="2026-05-20">
+  <title>Small Finance Bank FD Guide for Haryana | Simple Decision Page</title>
+  <style>
+    :root {
+      --bg: #f7f8fb;
+      --paper: #ffffff;
+      --ink: #14213d;
+      --muted: #5b6474;
+      --soft: #eef2f7;
+      --line: #d9e1ec;
+      --blue: #1d4ed8;
+      --blue-soft: #dbeafe;
+      --teal: #0f766e;
+      --teal-soft: #ccfbf1;
+      --amber: #b45309;
+      --amber-soft: #fef3c7;
+      --red: #b91c1c;
+      --red-soft: #fee2e2;
+      --green: #166534;
+      --green-soft: #dcfce7;
+      --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+      --radius: 18px;
+      --max: 1120px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(29, 78, 216, 0.10), transparent 36rem),
+        linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
+      line-height: 1.65;
+    }
+
+    a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    header {
+      background: linear-gradient(135deg, #102a63, #1d4ed8 60%, #0f766e);
+      color: #fff;
+      padding: 3rem 1.25rem 2.25rem;
+    }
+
+    .hero {
+      max-width: var(--max);
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.7rem;
+      border: 1px solid rgba(255,255,255,0.28);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.10);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    h1 {
+      margin: 1rem 0 0.6rem;
+      max-width: 920px;
+      font-size: clamp(2rem, 5vw, 4.1rem);
+      line-height: 1.05;
+      letter-spacing: -0.05em;
+    }
+
+    .hero p {
+      max-width: 860px;
+      margin: 0.8rem 0 0;
+      color: rgba(255,255,255,0.88);
+      font-size: clamp(1rem, 2vw, 1.2rem);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-top: 1.6rem;
+    }
+
+    .button {
+      border: 0;
+      border-radius: 999px;
+      padding: 0.8rem 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      min-height: 44px;
+    }
+
+    .button.primary {
+      color: #102a63;
+      background: #fff;
+    }
+
+    .button.secondary {
+      color: #fff;
+      background: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    main {
+      max-width: var(--max);
+      margin: -1.2rem auto 0;
+      padding: 0 1rem 3rem;
+    }
+
+    section,
+    .panel {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: clamp(1rem, 2vw, 1.4rem);
+      margin: 1rem 0;
+    }
+
+    h2 {
+      margin: 0 0 0.5rem;
+      font-size: clamp(1.35rem, 3vw, 2rem);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+    }
+
+    h3 {
+      margin: 0 0 0.45rem;
+      line-height: 1.25;
+    }
+
+    p {
+      margin: 0.55rem 0;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .grid.two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid.three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+      padding: 1rem;
+    }
+
+    .card.soft {
+      background: #f8fafc;
+    }
+
+    .kpi {
+      display: grid;
+      gap: 0.25rem;
+    }
+
+    .kpi strong {
+      font-size: 1.55rem;
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+
+    .kpi span {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .notice {
+      border-left: 5px solid var(--teal);
+      background: var(--teal-soft);
+      padding: 1rem;
+      border-radius: 14px;
+    }
+
+    .notice.warning {
+      border-left-color: var(--amber);
+      background: var(--amber-soft);
+    }
+
+    .notice.danger {
+      border-left-color: var(--red);
+      background: var(--red-soft);
+    }
+
+    .notice.good {
+      border-left-color: var(--green);
+      background: var(--green-soft);
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+      margin-top: 1rem;
+    }
+
+    table {
+      width: 100%;
+      min-width: 920px;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+
+    th,
+    td {
+      padding: 0.85rem 0.8rem;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+      text-align: left;
+    }
+
+    th {
+      background: #f1f5f9;
+      color: #111827;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .rate {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 0.2rem 0.55rem;
+      font-weight: 900;
+      background: var(--teal-soft);
+      color: var(--teal);
+      white-space: nowrap;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 0.15rem 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 800;
+      background: var(--blue-soft);
+      color: var(--blue);
+      white-space: nowrap;
+      margin: 0.1rem 0.15rem 0.1rem 0;
+    }
+
+    .tag.warn {
+      background: var(--amber-soft);
+      color: var(--amber);
+    }
+
+    .tag.red {
+      background: var(--red-soft);
+      color: var(--red);
+    }
+
+    .tag.green {
+      background: var(--green-soft);
+      color: var(--green);
+    }
+
+    details {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+      padding: 0.9rem 1rem;
+    }
+
+    details + details {
+      margin-top: 0.75rem;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 850;
+      color: var(--ink);
+    }
+
+    summary::marker {
+      color: var(--blue);
+    }
+
+    .term {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 0.75rem;
+      padding: 0.85rem 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .term:last-child {
+      border-bottom: 0;
+    }
+
+    .term strong {
+      color: #0f172a;
+    }
+
+    .calculator {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.85rem;
+      align-items: end;
+    }
+
+    label {
+      display: grid;
+      gap: 0.35rem;
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    input,
+    select {
+      width: 100%;
+      min-height: 44px;
+      padding: 0.75rem;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      font: inherit;
+      color: var(--ink);
+      background: #fff;
+    }
+
+    input:focus,
+    select:focus,
+    button:focus-visible,
+    a:focus-visible,
+    summary:focus-visible {
+      outline: 3px solid rgba(29, 78, 216, 0.25);
+      outline-offset: 2px;
+    }
+
+    .result {
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: 16px;
+      background: #f8fafc;
+      border: 1px dashed #cbd5e1;
+    }
+
+    .steps {
+      counter-reset: step;
+      display: grid;
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .step {
+      position: relative;
+      padding: 1rem 1rem 1rem 3.2rem;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+    }
+
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      position: absolute;
+      left: 1rem;
+      top: 1rem;
+      width: 1.6rem;
+      height: 1.6rem;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--blue);
+      color: #fff;
+      font-weight: 900;
+      font-size: 0.82rem;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 1rem;
+      align-items: start;
+    }
+
+    .checklist {
+      list-style: none;
+      padding: 0;
+      margin: 0.7rem 0 0;
+      display: grid;
+      gap: 0.5rem;
+    }
+
+    .checklist li {
+      padding-left: 1.8rem;
+      position: relative;
+    }
+
+    .checklist li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--green);
+      font-weight: 900;
+    }
+
+    .print-note {
+      display: none;
+    }
+
+    footer {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 2rem 1rem 3rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 820px) {
+      .grid.two,
+      .grid.three,
+      .split,
+      .calculator {
+        grid-template-columns: 1fr;
+      }
+
+      .term {
+        grid-template-columns: 1fr;
+        gap: 0.2rem;
+      }
+
+      header {
+        padding-top: 2rem;
+      }
+
+      main {
+        padding-inline: 0.75rem;
+      }
+
+      section,
+      .panel {
+        border-radius: 16px;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      header {
+        background: #fff;
+        color: #111;
+        border-bottom: 1px solid #ddd;
+      }
+
+      main {
+        margin: 0 auto;
+      }
+
+      section,
+      .panel,
+      .card,
+      details,
+      .step,
+      .table-wrap {
+        box-shadow: none;
+        break-inside: avoid;
+      }
+
+      .hero-actions,
+      .calculator {
+        display: none;
+      }
+
+      details {
+        display: block;
+      }
+
+      details > * {
+        display: block;
+      }
+
+      .print-note {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="hero">
+      <span class="eyebrow">FD Decision Guide · Haryana · Updated 20 May 2026</span>
+      <h1>Small Finance Bank FDs: choose by safety, access, tax and real payout — not rate alone.</h1>
+      <p>
+        This page translates the banking language into plain decision language. It keeps the rate table,
+        but adds the missing practical layer: DICGC limit, premature withdrawal, TDS, branch access,
+        and how much capital is really needed for a monthly income target.
+      </p>
+      <div class="hero-actions" aria-label="Page shortcuts">
+        <a class="button primary" href="#decision">Start with the decision map</a>
+        <a class="button secondary" href="#comparison">See refined FD table</a>
+        <a class="button secondary" href="#terms">Understand terms</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="summary">
+      <div class="grid three">
+        <div class="card">
+          <div class="kpi">
+            <strong>₹5 lakh</strong>
+            <span>DICGC protection limit per depositor, per bank, including principal + interest.</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="kpi">
+            <strong>8.10%</strong>
+            <span>Current high general-public slab seen in Suryoday and Utkarsh, subject to same-day verification.</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="kpi">
+            <strong>Kurukshetra</strong>
+            <span>Utkarsh and AU appear more practical locally than banks requiring travel to Panchkula/Gurugram/Karnal.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="notice warning" style="margin-top:1rem;">
+        <h3>Core correction to the old page</h3>
+        <p>
+          Do not write “₹5 lakh per individual bank account.” The correct practical wording is:
+          <strong>₹5 lakh per depositor, per bank, in the same ownership capacity, including both principal and interest.</strong>
+          Multiple FDs in the same bank do not multiply the insurance cover.
+        </p>
+      </div>
+    </section>
+
+    <section id="decision">
+      <h2>1. Decision map: how to choose without confusion</h2>
+      <p class="muted">
+        Use this order. It prevents the common mistake of chasing the highest rate while ignoring access, safety and tax.
+      </p>
+
+      <div class="steps">
+        <div class="step">
+          <h3>First decide the purpose</h3>
+          <p>
+            Is this money for emergency use, regular monthly income, or a parked amount for 1–3 years?
+            Emergency money should not go into a difficult-to-break FD just because the rate is higher.
+          </p>
+        </div>
+        <div class="step">
+          <h3>Then decide the safety limit</h3>
+          <p>
+            If you want full DICGC coverage, keep <strong>principal + expected interest</strong> within ₹5 lakh per bank.
+            A ₹5 lakh principal FD can cross the insured limit once interest is added.
+          </p>
+        </div>
+        <div class="step">
+          <h3>Then check branch access</h3>
+          <p>
+            For small deposits, digital opening may be fine. For larger family capital, a nearby branch is useful
+            for nomination, premature closure, dispute handling and paperwork.
+          </p>
+        </div>
+        <div class="step">
+          <h3>Then compare rate and tenure</h3>
+          <p>
+            A slightly lower rate at a convenient local branch can be better than a higher rate that requires travel
+            or leaves you dependent only on app/customer-care support.
+          </p>
+        </div>
+        <div class="step">
+          <h3>Finally check tax and withdrawal rules</h3>
+          <p>
+            Confirm TDS, Form 15G/15H eligibility, monthly payout mode, and premature withdrawal penalty before booking.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="comparison">
+      <h2>2. Refined FD comparison table</h2>
+      <p>
+        The table below keeps the original purpose, but corrects outdated or overconfident claims. Rates are shown as a
+        <strong>decision snapshot</strong>, not a permanent promise. Verify on the bank site or branch on the booking day.
+      </p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Bank</th>
+              <th>Max general-public rate</th>
+              <th>Senior citizen rate</th>
+              <th>Tenure for high rate</th>
+              <th>Haryana / Kurukshetra convenience</th>
+              <th>Decision note</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Suryoday Small Finance Bank</strong></td>
+              <td><span class="rate">8.10% p.a.</span></td>
+              <td>Approx. 8.25% p.a. on the high slab; verify before booking.</td>
+              <td>30 months</td>
+              <td><span class="tag warn">Panchkula / Gurugram</span></td>
+              <td>Strong rate. Less convenient if you want a nearby Kurukshetra branch.</td>
+            </tr>
+            <tr>
+              <td><strong>Utkarsh Small Finance Bank</strong></td>
+              <td><span class="rate">8.10% p.a.</span></td>
+              <td>8.25% p.a.</td>
+              <td>666 days</td>
+              <td><span class="tag green">Kurukshetra-friendly</span></td>
+              <td>Best balance of high rate and local practicality if the branch access is confirmed.</td>
+            </tr>
+            <tr>
+              <td><strong>Shivalik Small Finance Bank</strong></td>
+              <td><span class="rate">7.80% p.a.</span></td>
+              <td>Likely around 8.30% p.a.; verify slab.</td>
+              <td>21 months 1 day to 22 months</td>
+              <td><span class="tag warn">Ambala side</span></td>
+              <td>Useful alternative if you want another SFB for diversification.</td>
+            </tr>
+            <tr>
+              <td><strong>ESAF Small Finance Bank</strong></td>
+              <td><span class="rate">7.75% p.a.</span></td>
+              <td>8.25% p.a.</td>
+              <td>2 years to less than 3 years</td>
+              <td><span class="tag warn">Haryana access varies</span></td>
+              <td>Good rate, but branch convenience should be checked carefully.</td>
+            </tr>
+            <tr>
+              <td><strong>slice Small Finance Bank</strong></td>
+              <td><span class="rate">7.75% p.a.</span></td>
+              <td>7.75% p.a.</td>
+              <td>18 months 1 day to 18 months 2 days</td>
+              <td><span class="tag red">Digital-first caution</span></td>
+              <td>Consider only after understanding app/service dependency and withdrawal process.</td>
+            </tr>
+            <tr>
+              <td><strong>Jana Small Finance Bank</strong></td>
+              <td><span class="rate">7.77% p.a.</span></td>
+              <td>7.77% p.a. on some slabs; verify current special offers.</td>
+              <td>3 years to 5 years / 5 years, depending on slab</td>
+              <td><span class="tag warn">Branch access to verify</span></td>
+              <td>Include in comparison, but do not rely on older 8%+ screenshots without official confirmation.</td>
+            </tr>
+            <tr>
+              <td><strong>Unity Small Finance Bank</strong></td>
+              <td><span class="rate">7.50% p.a.</span></td>
+              <td>8.00% p.a.</td>
+              <td>1 year</td>
+              <td><span class="tag warn">Karnal / digital</span></td>
+              <td>The earlier 9.00% for 1001 days appears outdated. Reconfirm before considering.</td>
+            </tr>
+            <tr>
+              <td><strong>Ujjivan Small Finance Bank</strong></td>
+              <td><span class="rate">7.45% p.a.</span></td>
+              <td>7.95% p.a.</td>
+              <td>24 months</td>
+              <td><span class="tag warn">Panipat / Panchkula</span></td>
+              <td>Reasonable but no longer among the highest-return choices.</td>
+            </tr>
+            <tr>
+              <td><strong>Equitas Small Finance Bank</strong></td>
+              <td><span class="rate">7.40% p.a.</span></td>
+              <td>Approx. 7.90%–8.00% p.a.; verify exact current senior slab.</td>
+              <td>888 days</td>
+              <td><span class="tag warn">Karnal / Kaithal / Ambala</span></td>
+              <td>Earlier confusion can happen between rate and annualised yield. Use the actual booked rate.</td>
+            </tr>
+            <tr>
+              <td><strong>AU Small Finance Bank</strong></td>
+              <td><span class="rate">7.25% p.a.</span></td>
+              <td>7.75% p.a.</td>
+              <td>30 months 1 day to 36 months</td>
+              <td><span class="tag green">Kurukshetra-friendly</span></td>
+              <td>Lower rate, but high convenience and stronger branch network feel.</td>
+            </tr>
+            <tr>
+              <td><strong>Capital Small Finance Bank</strong></td>
+              <td><span class="rate">7.15% p.a.</span></td>
+              <td>7.65% p.a.</td>
+              <td>600 days</td>
+              <td><span class="tag green">Haryana district presence</span></td>
+              <td>Not rate-leading, but useful for diversification in North India.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="notice" style="margin-top:1rem;">
+        <h3>Practical reading of this table</h3>
+        <p>
+          For Kurukshetra-oriented decision-making, <strong>Utkarsh</strong> looks like the best high-rate local candidate.
+          <strong>AU</strong> is more convenient but lower yielding. <strong>Suryoday</strong> is rate-competitive but requires
+          more dependence on Panchkula/Gurugram/digital access.
+        </p>
+      </div>
+    </section>
+
+    <section id="calculator">
+      <h2>3. Monthly payout calculator: simple estimate</h2>
+      <p class="muted">
+        This estimates the principal needed for a monthly interest target. Banks may use monthly discounting, so the actual
+        amount may differ. Treat this as a planning number, not the final bank quote.
+      </p>
+
+      <div class="calculator">
+        <label>
+          Target monthly interest
+          <input id="targetMonthly" type="number" value="6000" min="100" step="100">
+        </label>
+
+        <label>
+          FD rate
+          <select id="rateInput">
+            <option value="8.10">8.10% - Suryoday / Utkarsh general</option>
+            <option value="8.25">8.25% - senior high slab</option>
+            <option value="7.80">7.80% - Shivalik general</option>
+            <option value="7.75">7.75% - ESAF / slice general</option>
+            <option value="7.50">7.50% - Unity general</option>
+            <option value="7.45">7.45% - Ujjivan general</option>
+            <option value="7.25">7.25% - AU general</option>
+            <option value="7.15">7.15% - Capital general</option>
+          </select>
+        </label>
+
+        <label>
+          Tenure in years
+          <input id="tenureYears" type="number" value="2" min="0.25" max="10" step="0.25">
+        </label>
+
+        <button class="button primary" id="calcBtn" type="button" style="background:var(--blue); color:#fff;">Calculate</button>
+      </div>
+
+      <div class="result" id="calcResult" aria-live="polite"></div>
+    </section>
+
+    <section id="terms">
+      <h2>4. Difficult terms explained simply</h2>
+      <p class="muted">
+        These are the terms that usually make FD decisions look more complicated than they are.
+      </p>
+
+      <div class="panel" style="box-shadow:none; padding:0; border:0; margin:1rem 0 0;">
+        <div class="term">
+          <strong>Small Finance Bank</strong>
+          <span>A licensed bank category meant to serve smaller customers, local businesses and underserved segments. It is still a bank, but you should be more careful about service quality, branch access and diversification.</span>
+        </div>
+        <div class="term">
+          <strong>RBI-licensed</strong>
+          <span>The bank is listed/licensed by the Reserve Bank of India. This does not mean every FD is “risk-free”; it means the institution is regulated as a bank.</span>
+        </div>
+        <div class="term">
+          <strong>DICGC</strong>
+          <span>The deposit insurance body. If a bank fails, eligible deposits are insured up to ₹5 lakh per depositor per bank, including interest.</span>
+        </div>
+        <div class="term">
+          <strong>p.a.</strong>
+          <span>Per annum, meaning per year. An 8.10% p.a. FD does not mean 8.10% every month; it means roughly 8.10% for one year before tax and payout adjustments.</span>
+        </div>
+        <div class="term">
+          <strong>Tenure</strong>
+          <span>The time for which you lock the money. Example: 666 days or 30 months.</span>
+        </div>
+        <div class="term">
+          <strong>Callable FD</strong>
+          <span>You can break it before maturity, usually with a penalty or lower interest. Better for money you may need.</span>
+        </div>
+        <div class="term">
+          <strong>Non-callable FD</strong>
+          <span>You generally cannot break it early. Sometimes it gives a slightly better rate, but it is unsuitable for emergency money.</span>
+        </div>
+        <div class="term">
+          <strong>Monthly payout</strong>
+          <span>The bank pays interest every month. Useful for income, but the payout may be slightly lower than simply dividing annual interest by 12 because of bank calculation rules.</span>
+        </div>
+        <div class="term">
+          <strong>Cumulative FD</strong>
+          <span>Interest is not paid monthly. It is added back to the FD and paid at maturity. Better for growth, not monthly income.</span>
+        </div>
+        <div class="term">
+          <strong>TDS</strong>
+          <span>Tax deducted at source. The bank may cut tax from your interest if your annual interest crosses the threshold. It is not an extra charge; it is advance tax collection.</span>
+        </div>
+        <div class="term">
+          <strong>Form 15G / 15H</strong>
+          <span>A declaration to avoid TDS if your final tax liability is nil. 15G is generally for eligible non-senior resident individuals/HUFs; 15H is for eligible senior citizens.</span>
+        </div>
+        <div class="term">
+          <strong>Annualised yield</strong>
+          <span>A way of showing what the return looks like after compounding. Do not confuse this with the actual interest rate printed on the FD receipt.</span>
+        </div>
+        <div class="term">
+          <strong>Video KYC</strong>
+          <span>Remote identity verification using your PAN, Aadhaar-linked mobile and a video call. Convenient, but for larger money you may still prefer branch confirmation.</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="risk">
+      <h2>5. Safety framework for family capital</h2>
+      <div class="split">
+        <div>
+          <h3>Conservative approach</h3>
+          <ul class="checklist">
+            <li>Keep emergency money in a highly accessible bank, not in a hard-to-break FD.</li>
+            <li>For SFBs, keep each bank exposure near the DICGC-insured limit if safety is the priority.</li>
+            <li>Use nominee details properly and keep FD advice/receipt downloaded.</li>
+            <li>Prefer callable FDs unless the money is definitely not needed before maturity.</li>
+            <li>Take screenshots/PDFs of rate, tenure, maturity value and premature-withdrawal terms.</li>
+          </ul>
+        </div>
+        <div class="notice danger">
+          <h3>Red flags before booking</h3>
+          <p>
+            Do not book only because an app or third-party site shows a high rate. Confirm the rate on the bank site,
+            check whether the FD is callable, and confirm how premature closure works.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="monthly-income">
+      <h2>6. ₹6,000 monthly-interest example</h2>
+      <p>
+        Simple formula:
+        <strong>Required principal = monthly target × 12 ÷ annual rate</strong>.
+        For ₹6,000/month at 8.10%, the rough principal is about ₹8.89 lakh.
+      </p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Rate</th>
+              <th>Approx. principal for ₹6,000/month</th>
+              <th>Plain meaning</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="rate">8.25%</span></td>
+              <td>₹8.73 lakh</td>
+              <td>Senior high-slab estimate.</td>
+            </tr>
+            <tr>
+              <td><span class="rate">8.10%</span></td>
+              <td>₹8.89 lakh</td>
+              <td>Utkarsh/Suryoday general high-slab estimate.</td>
+            </tr>
+            <tr>
+              <td><span class="rate">7.75%</span></td>
+              <td>₹9.29 lakh</td>
+              <td>Requires more capital for the same monthly payout.</td>
+            </tr>
+            <tr>
+              <td><span class="rate">7.25%</span></td>
+              <td>₹9.93 lakh</td>
+              <td>Lower rate, but may be acceptable if branch convenience is important.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="notice warning" style="margin-top:1rem;">
+        <h3>Tax and insurance reminder</h3>
+        <p>
+          A single FD of ₹8–10 lakh in one SFB is above the DICGC insured ceiling. It may still be a valid personal decision,
+          but it should be a conscious decision, not an accidental one.
+        </p>
+      </div>
+    </section>
+
+    <section id="faq">
+      <h2>7. Common questions</h2>
+
+      <details open>
+        <summary>Is the highest FD rate automatically the best choice?</summary>
+        <p>
+          No. The best choice depends on rate, branch access, premature withdrawal rules, tax, digital reliability and how much of your money remains insured.
+        </p>
+      </details>
+
+      <details>
+        <summary>Should I keep exactly ₹5 lakh in one SFB?</summary>
+        <p>
+          Not if you want complete insurance coverage including interest. Since DICGC includes principal plus interest, keeping exactly ₹5 lakh principal can leave part of the interest uninsured.
+        </p>
+      </details>
+
+      <details>
+        <summary>Is monthly payout better than cumulative FD?</summary>
+        <p>
+          Monthly payout is better for income. Cumulative FD is better for growth because interest stays invested. For family expense planning, monthly payout is easier to understand.
+        </p>
+      </details>
+
+      <details>
+        <summary>Is a digital FD safe?</summary>
+        <p>
+          It can be safe if opened directly with a regulated bank. The practical question is service: Can you download FD advice? Can you add nominee? Can you close it early? Can you reach support if something goes wrong?
+        </p>
+      </details>
+
+      <details>
+        <summary>What should I verify on booking day?</summary>
+        <p>
+          Verify bank name, RBI/DICGC status, exact rate, tenure, maturity value, payout mode, premature withdrawal penalty, nominee, TDS declaration, and whether the FD is callable or non-callable.
+        </p>
+      </details>
+    </section>
+
+    <section id="booking-checklist">
+      <h2>8. Booking-day checklist</h2>
+      <div class="grid two">
+        <div class="card soft">
+          <h3>Before booking</h3>
+          <ul class="checklist">
+            <li>Check the rate on the official bank site or at branch.</li>
+            <li>Confirm if the rate is for general public or senior citizen.</li>
+            <li>Confirm if the rate is actual FD rate or annualised yield.</li>
+            <li>Check whether monthly payout is available for that exact tenure.</li>
+            <li>Confirm premature withdrawal penalty.</li>
+          </ul>
+        </div>
+        <div class="card soft">
+          <h3>After booking</h3>
+          <ul class="checklist">
+            <li>Download FD advice/receipt immediately.</li>
+            <li>Verify nominee is added.</li>
+            <li>Record maturity date and payout date.</li>
+            <li>Save customer-care and branch details.</li>
+            <li>Keep a family-level FD tracker with bank, amount, rate and insured exposure.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="sources">
+      <h2>9. Source notes</h2>
+      <p class="muted">
+        This page uses a mix of official and secondary rate pages. Official bank pages should be treated as stronger than third-party aggregators.
+      </p>
+      <ul>
+        <li>RBI list of banks in India: <a href="https://www.rbi.org.in/commonman/english/scripts/banksinindia.aspx" target="_blank" rel="noopener">Reserve Bank of India</a></li>
+        <li>DICGC deposit insurance guide: <a href="https://www.dicgc.org.in/guide-to-deposit-insurance" target="_blank" rel="noopener">DICGC</a></li>
+        <li>Utkarsh FD rate table: <a href="https://www.utkarsh.bank.in/personal/digital-products/digital-fixed-deposit" target="_blank" rel="noopener">Utkarsh Small Finance Bank</a></li>
+        <li>AU FD rate table: <a href="https://www.au.bank.in/interest-rates/fixed-deposit-interest-rates" target="_blank" rel="noopener">AU Small Finance Bank</a></li>
+        <li>Suryoday FD information: <a href="https://www.suryodaybank.com/personal/deposits/fixed-deposits/" target="_blank" rel="noopener">Suryoday Small Finance Bank</a></li>
+        <li>Income Tax Section 194A: <a href="https://www.incometaxindia.gov.in/w/section-194a" target="_blank" rel="noopener">Income Tax Department</a></li>
+      </ul>
+      <p class="print-note">
+        Print note: verify all rates on the booking date. Rate tables are updated frequently.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <p>
+      Educational guide only. Not investment, tax or legal advice. Created for clear decision-making around Small Finance Bank FDs in/near Haryana.
+    </p>
+  </footer>
+
+  <script type="module">
+    const targetMonthly = document.querySelector("#targetMonthly");
+    const rateInput = document.querySelector("#rateInput");
+    const tenureYears = document.querySelector("#tenureYears");
+    const calcBtn = document.querySelector("#calcBtn");
+    const calcResult = document.querySelector("#calcResult");
+
+    const formatINR = (amount) => {
+      return new Intl.NumberFormat("en-IN", {
+        style: "currency",
+        currency: "INR",
+        maximumFractionDigits: 0
+      }).format(amount);
+    };
+
+    const calculate = () => {
+      const monthly = Number(targetMonthly.value);
+      const rate = Number(rateInput.value);
+      const years = Number(tenureYears.value);
+
+      if (!monthly || !rate || !years || monthly <= 0 || rate <= 0 || years <= 0) {
+        calcResult.innerHTML = "<strong>Please enter valid numbers.</strong>";
+        return;
+      }
+
+      const principal = (monthly * 12 * 100) / rate;
+      const bufferPrincipal = principal * 1.01;
+      const expectedInterest = principal * (rate / 100) * years;
+      const expectedTotal = principal + expectedInterest;
+      const insuredGap = expectedTotal - 500000;
+      const maxPrincipalForFullCover = 500000 / (1 + (rate / 100) * years);
+
+      calcResult.innerHTML = `
+        <h3>Estimated result</h3>
+        <p>To target <strong>${formatINR(monthly)} per month</strong> at <strong>${rate.toFixed(2)}% p.a.</strong>, the rough principal is <strong>${formatINR(principal)}</strong>.</p>
+        <p>With a small 1% practical buffer, plan around <strong>${formatINR(bufferPrincipal)}</strong>.</p>
+        <p>Over ${years} year(s), simple estimated principal + interest becomes about <strong>${formatINR(expectedTotal)}</strong>.</p>
+        <p><strong>DICGC check:</strong> For full insurance at this rate and tenure, a conservative principal ceiling is around <strong>${formatINR(maxPrincipalForFullCover)}</strong>. Anything above that may leave some amount outside the ₹5 lakh insurance cover.</p>
+        <p class="muted">This is a planning estimate. Bank monthly payout calculations, TDS and premature closure rules can change the actual result.</p>
+      `;
+    };
+
+    calcBtn.addEventListener("click", calculate);
+    [targetMonthly, rateInput, tenureYears].forEach((field) => {
+      field.addEventListener("input", calculate);
+      field.addEventListener("change", calculate);
+    });
+
+    calculate();
+  </script>
+</body>
+</html>
