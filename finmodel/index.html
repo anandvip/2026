@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fintech Revenue Models by Region</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
+        
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+        
+        .heading-font {
+            font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+            font-weight: 600;
+            letter-spacing: -0.025em;
+        }
+
+        .model-card {
+            transition: transform 0.2s cubic-bezier(0.4, 0.0, 0.2, 1), 
+                        box-shadow 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+        
+        .model-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+
+        .section-header {
+            scroll-margin-top: 80px;
+        }
+
+        .nav-button {
+            transition: all 0.1s ease;
+        }
+        
+        .nav-button.active {
+            background-color: #1e40af;
+            color: white;
+            border-color: #1e40af;
+        }
+
+        .large-text {
+            font-size: 1.125rem;
+            line-height: 1.7;
+        }
+
+        .model-title {
+            font-size: 1.25rem;
+            line-height: 1.4;
+            font-weight: 600;
+        }
+
+        .example-text {
+            font-size: 0.875rem;
+            color: #475569;
+        }
+
+        .plain-list-item {
+            font-size: 1.0625rem;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 640px) {
+            .large-text { font-size: 1.0625rem; }
+            .model-title { font-size: 1.125rem; }
+        }
+
+        .view-toggle {
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body class="bg-zinc-50 text-zinc-950">
+    <!-- Navbar -->
+    <nav class="bg-white border-b border-zinc-200 sticky top-0 z-50">
+        <div class="max-w-screen-xl mx-auto px-6 py-5 flex items-center justify-between">
+            <div class="flex items-center gap-x-3">
+                <div class="w-9 h-9 bg-blue-700 rounded-xl flex items-center justify-center">
+                    <span class="text-white text-2xl font-bold tracking-tighter">F</span>
+                </div>
+                <div>
+                    <span class="heading-font text-2xl font-semibold tracking-tight">FinModel</span>
+                </div>
+            </div>
+            
+            <div class="hidden md:flex items-center gap-x-2 text-sm">
+                <a href="#usa" class="nav-button px-4 py-2 rounded-2xl border border-zinc-200 hover:bg-zinc-100 font-medium">USA</a>
+                <a href="#europe" class="nav-button px-4 py-2 rounded-2xl border border-zinc-200 hover:bg-zinc-100 font-medium">Europe</a>
+                <a href="#asia" class="nav-button px-4 py-2 rounded-2xl border border-zinc-200 hover:bg-zinc-100 font-medium">Asia</a>
+                <a href="#china" class="nav-button px-4 py-2 rounded-2xl border border-zinc-200 hover:bg-zinc-100 font-medium">China</a>
+                <a href="#russia" class="nav-button px-4 py-2 rounded-2xl border border-zinc-200 hover:bg-zinc-100 font-medium">Russia</a>
+                <a href="#outlook" class="nav-button px-4 py-2 rounded-2xl border border-zinc-200 hover:bg-zinc-100 font-medium">Outlook</a>
+            </div>
+            
+            <div class="md:hidden">
+                <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" 
+                        class="p-2 rounded-2xl border border-zinc-200 hover:bg-zinc-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-zinc-200 bg-white px-6 py-4">
+            <div class="flex flex-col gap-y-1 text-sm">
+                <a href="#usa" class="py-3 px-4 rounded-2xl hover:bg-zinc-100 font-medium">USA</a>
+                <a href="#europe" class="py-3 px-4 rounded-2xl hover:bg-zinc-100 font-medium">Europe</a>
+                <a href="#asia" class="py-3 px-4 rounded-2xl hover:bg-zinc-100 font-medium">Asia</a>
+                <a href="#china" class="py-3 px-4 rounded-2xl hover:bg-zinc-100 font-medium">China</a>
+                <a href="#russia" class="py-3 px-4 rounded-2xl hover:bg-zinc-100 font-medium">Russia</a>
+                <a href="#outlook" class="py-3 px-4 rounded-2xl hover:bg-zinc-100 font-medium">Outlook</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <div class="max-w-screen-xl mx-auto px-6 pt-14 pb-8">
+        <div class="max-w-3xl">
+            <div class="inline-flex items-center gap-x-2 px-4 py-1.5 rounded-3xl bg-blue-100 text-blue-700 text-sm font-medium mb-6">
+                <div class="w-2 h-2 bg-blue-600 rounded-full animate-pulse"></div>
+                Financial Revenue Generation
+            </div>
+            <h1 class="heading-font text-6xl md:text-7xl tracking-tighter font-semibold leading-none mb-6">
+                Business Models<br>by Region
+            </h1>
+            <p class="large-text text-zinc-600 max-w-md">
+                Key revenue models in fintech &amp; financial services. Business examples included. Toggle to plain list for low cognitive load.
+            </p>
+        </div>
+    </div>
+
+    <!-- View Toggle -->
+    <div class="max-w-screen-xl mx-auto px-6 pb-6">
+        <div class="flex items-center gap-x-3">
+            <span class="text-sm font-medium text-zinc-500">View:</span>
+            <button onclick="switchView('cards')" id="btn-cards"
+                    class="view-toggle px-5 py-2 rounded-2xl bg-blue-700 text-white font-medium active">Cards</button>
+            <button onclick="switchView('list')" id="btn-list"
+                    class="view-toggle px-5 py-2 rounded-2xl border border-zinc-300 hover:bg-zinc-100 font-medium">Plain List</button>
+        </div>
+    </div>
+
+    <!-- USA Section -->
+    <div id="usa" class="max-w-screen-xl mx-auto px-6 pb-12 section-header cards-view">
+        <div class="flex items-end justify-between mb-6">
+            <div>
+                <span class="text-xs font-semibold tracking-[2px] text-blue-700">NORTH AMERICA</span>
+                <h2 class="heading-font text-5xl tracking-tighter font-semibold">United States</h2>
+            </div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div class="model-card bg-white border border-zinc-200 rounded-3xl p-7">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <div class="text-3xl">💳</div>
+                    <h3 class="model-title">Interchange Fees</h3>
+                </div>
+                <p class="large-text text-zinc-600 mb-4">Primary revenue for neobanks from merchant-paid debit/credit transaction fees.</p>
+                <div class="example-text"><strong>Examples:</strong> Chime, Varo, Ramp, SoFi</div>
+            </div>
+            
+            <div class="model-card bg-white border border-zinc-200 rounded-3xl p-7">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <div class="text-3xl">📈</div>
+                    <h3 class="model-title">Payment for Order Flow (PFOF)</h3>
+                </div>
+                <p class="large-text text-zinc-600 mb-4">Brokerages monetize retail order data sold to market makers and HFT firms.</p>
+                <div class="example-text"><strong>Examples:</strong> Robinhood, Webull</div>
+            </div>
+            
+            <div class="model-card bg-white border border-zinc-200 rounded-3xl p-7">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <div class="text-3xl">🔌</div>
+                    <h3 class="model-title">Banking-as-a-Service (BaaS)</h3>
+                </div>
+                <p class="large-text text-zinc-600 mb-4">APIs let non-banks embed finance. Revenue from licensing + transaction share.</p>
+                <div class="example-text"><strong>Examples:</strong> Stripe Treasury, Unit, Green Dot</div>
+            </div>
+            
+            <div class="model-card bg-white border border-zinc-200 rounded-3xl p-7">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <div class="text-3xl">📱</div>
+                    <h3 class="model-title">Subscription + Interchange</h3>
+                </div>
+                <p class="large-text text-zinc-600 mb-4">Neobanks combine monthly premiums with interchange for hybrid revenue.</p>
+                <div class="example-text"><strong>Examples:</strong> Chime Premium, Current</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Europe Section -->
+    <div id="europe" class="max-w-screen-xl mx-auto px-6 pb-12 border-t border-zinc-100 pt-8 section-header cards-view">
+        <div class="flex items-end justify-between mb-6">
+            <div>
+                <span class="text-xs font-semibold tracking-[2px] text-blue-700">EUROPEAN UNION + UK</span>
+                <h2 class="heading-font text-5xl tracking-tighter font-semibold">Europe</h2>
+            </div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div class="model-card bg-white border border-zinc-200 rounded-3xl p-7">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <div class="text-3xl">🤝</div>
+                    <h3 class="model-title">P2P Lending Platforms</h3>
+                </div>
+                <p class="large-text text-zinc-600 mb-4">Direct borrower-lender matching. Revenue from origination and servicing fees.</p>
+                <div class="example-text"><strong>Examples:</strong> Funding Circle, Zopa, RateSetter</div>
+            </div>
+            
+            <div class="model-card bg-white border border-zinc-200 rounded-3xl p-7">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <div class="text-3xl">🌱</div>
+                    <h3 class="model-title">Crowdfunding</h3>
+                </div>
+                <p class="large-text text-zinc-600 mb-4">Success fees on equity, rewards or real-estate campaigns.</p>
+                <div class="example-text"><strong>Examples:</strong> Crowdcube, Seedrs, Kickstarter (finance verticals)</div>
+            </div>
+            
+            <div class="model-card bg-white border border-zinc-200 rounded-3xl p-7">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <div class="text-3xl">🔗</div>
+                    <h3 class="model-title">Open Banking APIs</h3>
+                </div>
+                <p class="large-text text-zinc-600 mb-4">PSD2 data sharing and payments. Monetized via API fees and premium tiers.</p>
+                <div class="example-text"><strong>Examples:</strong> Plaid (EU), TrueLayer, Salt Edge</div>
+            </div>
+            
+            <div class="model-card bg-white border border-zinc-200 rounded-3xl p-7">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <div class="text-3xl">📄</div>
+                    <h3 class="model-title">Invoice Trading / Factoring</h3>
+                </div>
+                <p class="large-text text-zinc-600 mb-4">Platforms purchase invoices at discount. Revenue from fees and spreads.</p>
+                <div class="example-text"><strong>Examples:</strong> MarketInvoice, Fundbox, Invoice2go</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Asia Section (with India) -->
+    <div id="asia" class="max-w-screen-xl mx-auto px-6 pb-12 border-t border-zinc-100 pt-8 section-header cards-view">
+        <div class="flex items-end justify-between mb-6">
+            <div>
+                <span class="text-xs font-semibold tracking-[2px] text-blue-700">EMERGING ASIA (INDIA FOCUS)</span>
+                <h2 class="heading-font text-5xl tracking-tighter font-semibold">Asia</h2>
+            </div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div class="model-card bg-white border border-zinc-200 rounded-3xl p-7">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <div class="text-3xl">📲</div>
+                    <h3 class="model-title">UPI &amp; Digital Wallets</h3>
+                </div>
+                <p class="large-text text-zinc-600 mb-4">Volume-driven via NPCI UPI rails. Revenue from MDR (limited), float, and linked services in apps.</p>
+                <div class="example-text"><strong>Examples:</strong> PhonePe, Google Pay India, Paytm, BHIM</div>
+            </div>
+            
+            <div class="model-card bg-white border border-zinc-200 rounded-3xl p-7">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <div class="text-3xl">🛍️</div>
+                    <h3 class="model-title">Buy Now, Pay Later (BNPL)</h3>
+                </div>
+                <p class="large-text text-zinc-600 mb-4">Merchant fees + consumer interest/late fees. Strong in e-commerce and consumer credit.</p>
+                <div class="example-text"><strong>Examples:</strong> LazyPay, Simpl, Amazon Pay Later, Flipkart Pay Later</div>
+            </div>
+            
+            <div class="model-card bg-white border border-zinc-200 rounded-3xl p-7">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <div class="text-3xl">🧩</div>
+                    <h3 class="model-title">Embedded Finance &amp; Lending</h3>
+                </div>
+                <p class="large-text text-zinc-600 mb-4">Financial products embedded in apps/platforms. Revenue share on loans, insurance, payments.</p>
+                <div class="example-text"><strong>Examples:</strong> BharatPe, Razorpay, CRED, Lendingkart</div>
+            </div>
+            
+            <div class="model-card bg-white border border-zinc-200 rounded-3xl p-7">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <div class="text-3xl">💸</div>
+                    <h3 class="model-title">Digital Payments Infrastructure</h3>
+                </div>
+                <p class="large-text text-zinc-600 mb-4">Gateway and acquirer fees plus value-added services for merchants and developers.</p>
+                <div class="example-text"><strong>Examples:</strong> Razorpay, PayU India, CCAvenue</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- China Section -->
+    <div id="china" class="max-w-screen-xl mx-auto px-6 pb-12 border-t border-zinc-100 pt-8 section-header cards-view">
+        <div class="flex items-end justify-between mb-6">
+            <div>
+                <span class="text-xs font-semibold tracking-[2px] text-blue-700">PEOPLE'S REPUBLIC OF CHINA</span>
+                <h2 class="heading-font text-5xl tracking-tighter font-semibold">China</h2>
+            </div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div class="model-card bg-white border border-zinc-200 rounded-3xl p-7">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <div class="text-3xl">🌐</div>
+                    <h3 class="model-title">Super App Ecosystem</h3>
+                </div>
+                <p class="large-text text-zinc-600 mb-4">Subsidized QR payments lock users in. Revenue from mini-programs, wealth, insurance &amp; in-app lending.</p>
+                <div class="example-text"><strong>Examples:</strong> Alipay (Ant Group), WeChat Pay (Tencent)</div>
+            </div>
+            
+            <div class="model-card bg-white border border-zinc-200 rounded-3xl p-7">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <div class="text-3xl">🏪</div>
+                    <h3 class="model-title">Tiered Merchant QR Fees</h3>
+                </div>
+                <p class="large-text text-zinc-600 mb-4">Free/low for small merchants; 0.6–1% volume commissions for larger to monetize scale.</p>
+                <div class="example-text"><strong>Examples:</strong> Alipay, WeChat Pay merchant services</div>
+            </div>
+            
+            <div class="model-card bg-white border border-zinc-200 rounded-3xl p-7">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <div class="text-3xl">🔄</div>
+                    <h3 class="model-title">Closed-Loop Cross-Sell</h3>
+                </div>
+                <p class="large-text text-zinc-600 mb-4">Deep behavioral data powers targeted financial product sales inside messaging &amp; commerce.</p>
+                <div class="example-text"><strong>Examples:</strong> Ant Group wealth/insurance, Tencent Financial</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Russia Section -->
+    <div id="russia" class="max-w-screen-xl mx-auto px-6 pb-12 border-t border-zinc-100 pt-8 section-header cards-view">
+        <div class="flex items-end justify-between mb-6">
+            <div>
+                <span class="text-xs font-semibold tracking-[2px] text-blue-700">RUSSIAN FEDERATION</span>
+                <h2 class="heading-font text-5xl tracking-tighter font-semibold">Russia</h2>
+            </div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div class="model-card bg-white border border-zinc-200 rounded-3xl p-7">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <div class="text-3xl">🏦</div>
+                    <h3 class="model-title">State Bank Margins</h3>
+                </div>
+                <p class="large-text text-zinc-600 mb-4">Net interest margins + commissions from dominant state-aligned banks.</p>
+                <div class="example-text"><strong>Examples:</strong> Sberbank, VTB, Gazprombank</div>
+            </div>
+            
+            <div class="model-card bg-white border border-zinc-200 rounded-3xl p-7">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <div class="text-3xl">🇷🇺</div>
+                    <h3 class="model-title">National Payment Systems</h3>
+                </div>
+                <p class="large-text text-zinc-600 mb-4">Fees from Mir card scheme and SBP Faster Payments for domestic sovereignty.</p>
+                <div class="example-text"><strong>Examples:</strong> Mir, SBP (Bank of Russia)</div>
+            </div>
+            
+            <div class="model-card bg-white border border-zinc-200 rounded-3xl p-7">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <div class="text-3xl">🛡️</div>
+                    <h3 class="model-title">Regulated Digital Finance</h3>
+                </div>
+                <p class="large-text text-zinc-600 mb-4">Licensed platforms under Central Bank. Focus on controlled domestic innovation.</p>
+                <div class="example-text"><strong>Examples:</strong> Tinkoff (pre-sanctions model), QIWI (historical)</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Plain List View (hidden by default) -->
+    <div id="list-view" class="max-w-screen-xl mx-auto px-6 pb-12 hidden">
+        <div class="bg-white border border-zinc-200 rounded-3xl p-8">
+            <h3 class="text-2xl font-semibold mb-6 tracking-tight">All Models — Plain List</h3>
+            
+            <div class="space-y-8 text-sm">
+                <div>
+                    <div class="font-semibold text-blue-700 mb-2">UNITED STATES</div>
+                    <ul class="space-y-3 plain-list-item">
+                        <li><strong>Interchange Fees</strong> — Chime, Varo, Ramp, SoFi</li>
+                        <li><strong>Payment for Order Flow (PFOF)</strong> — Robinhood, Webull</li>
+                        <li><strong>Banking-as-a-Service (BaaS)</strong> — Stripe Treasury, Unit, Green Dot</li>
+                        <li><strong>Subscription + Interchange</strong> — Chime Premium, Current</li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="font-semibold text-blue-700 mb-2">EUROPE</div>
+                    <ul class="space-y-3 plain-list-item">
+                        <li><strong>P2P Lending Platforms</strong> — Funding Circle, Zopa</li>
+                        <li><strong>Crowdfunding</strong> — Crowdcube, Seedrs</li>
+                        <li><strong>Open Banking APIs</strong> — TrueLayer, Plaid EU</li>
+                        <li><strong>Invoice Trading / Factoring</strong> — MarketInvoice, Fundbox</li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="font-semibold text-blue-700 mb-2">ASIA (INDIA FOCUS)</div>
+                    <ul class="space-y-3 plain-list-item">
+                        <li><strong>UPI &amp; Digital Wallets</strong> — PhonePe, Google Pay India, Paytm, BHIM</li>
+                        <li><strong>Buy Now, Pay Later (BNPL)</strong> — LazyPay, Simpl, Amazon Pay Later</li>
+                        <li><strong>Embedded Finance &amp; Lending</strong> — BharatPe, Razorpay, CRED, Lendingkart</li>
+                        <li><strong>Digital Payments Infrastructure</strong> — Razorpay, PayU India</li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="font-semibold text-blue-700 mb-2">CHINA</div>
+                    <ul class="space-y-3 plain-list-item">
+                        <li><strong>Super App Ecosystem</strong> — Alipay (Ant Group), WeChat Pay (Tencent)</li>
+                        <li><strong>Tiered Merchant QR Fees</strong> — Alipay, WeChat Pay merchant services</li>
+                        <li><strong>Closed-Loop Cross-Sell</strong> — Ant Group wealth/insurance, Tencent Financial</li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="font-semibold text-blue-700 mb-2">RUSSIA</div>
+                    <ul class="space-y-3 plain-list-item">
+                        <li><strong>State Bank Margins</strong> — Sberbank, VTB</li>
+                        <li><strong>National Payment Systems</strong> — Mir, SBP (Bank of Russia)</li>
+                        <li><strong>Regulated Digital Finance</strong> — Tinkoff model, QIWI (historical)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Historical & Future Section -->
+    <div id="outlook" class="max-w-screen-xl mx-auto px-6 pb-16 border-t border-zinc-100 pt-10 section-header">
+        <div class="mb-8">
+            <span class="text-xs font-semibold tracking-[2px] text-blue-700">1970s–2026 &amp; BEYOND</span>
+            <h2 class="heading-font text-5xl tracking-tighter font-semibold">Historical Impact &amp; 2027 Outlook</h2>
+        </div>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Historical -->
+            <div class="bg-white border border-zinc-200 rounded-3xl p-8">
+                <h3 class="text-2xl font-semibold mb-4 tracking-tight">Region with Maximum Contribution (1970s–2026)</h3>
+                <p class="large-text text-zinc-600 mb-4"><strong>United States</strong></p>
+                <p class="large-text text-zinc-600">Pioneered and scaled foundational models since the 1970s (card networks, interchange economics) through 1990s–2010s internet era: PFOF, neobank subscriptions, BaaS infrastructure, and embedded finance APIs. Silicon Valley + Wall Street combination drove global standards. China delivered transformative scale via super-app and QR closed-loop ecosystems from the 2010s onward, but foundational invention and early commercialization remain US-led.</p>
+            </div>
+            
+            <!-- Future -->
+            <div class="bg-white border border-zinc-200 rounded-3xl p-8">
+                <h3 class="text-2xl font-semibold mb-4 tracking-tight">2027 &amp; Next 10 Months Emerging Models</h3>
+                <ul class="space-y-4 large-text text-zinc-600">
+                    <li><strong>AI Agent Finance</strong> — Autonomous AI agents managing spending, investing &amp; credit. Revenue via performance or subscription fees. Early corporate pilots scaling.</li>
+                    <li><strong>Tokenized Real-World Assets (RWA)</strong> — On-chain fractional ownership of real estate, bonds, funds. New trading and custody fee models in both startups and banks.</li>
+                    <li><strong>Embedded AI in Vertical SaaS</strong> — Finance modules (invoicing, payroll, lending) inside industry software. Revenue share between SaaS platforms and fintechs.</li>
+                    <li><strong>Programmable CBDC Rails</strong> — Government + fintech collaboration on programmable money for targeted payments and compliance. New infrastructure fees expected.</li>
+                    <li><strong>Privacy-Preserving Data Monetization</strong> — Zero-knowledge and federated learning for compliant alternative data sales to lenders/insurers.</li>
+                </ul>
+                <p class="text-sm text-zinc-500 mt-4">Startups strongest in: India (UPI 2.0 extensions), US (AI agents &amp; RWA), Europe (open finance + AI compliance).</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t border-zinc-200 bg-white">
+        <div class="max-w-screen-xl mx-auto px-6 py-8 text-sm text-zinc-500 flex flex-col md:flex-row md:items-center md:justify-between gap-y-3">
+            <div>
+                For informational and documentation purposes only. Not financial advice.
+            </div>
+            <div class="text-xs">
+                Large text • High contrast • Mobile responsive • Low cognitive load toggle
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function initializeTailwind() {
+            // Already handled via CDN
+        }
+        
+        function setupSmoothScroll() {
+            const links = document.querySelectorAll('a[href^="#"]');
+            links.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        e.preventDefault();
+                        const navHeight = 80;
+                        const elementPosition = target.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.scrollY - navHeight;
+                        
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                        
+                        const mobileMenu = document.getElementById('mobile-menu');
+                        if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                            mobileMenu.classList.add('hidden');
+                        }
+                    }
+                });
+            });
+        }
+        
+        function setupKeyboardNav() {
+            const navLinks = document.querySelectorAll('.nav-button, #mobile-menu a');
+            navLinks.forEach(link => {
+                link.setAttribute('aria-label', link.textContent.trim() + ' section');
+            });
+        }
+        
+        // View toggle between Cards and Plain List
+        function switchView(view) {
+            const cardsSections = document.querySelectorAll('.cards-view');
+            const listView = document.getElementById('list-view');
+            const btnCards = document.getElementById('btn-cards');
+            const btnList = document.getElementById('btn-list');
+            
+            if (view === 'cards') {
+                cardsSections.forEach(el => el.classList.remove('hidden'));
+                listView.classList.add('hidden');
+                btnCards.classList.add('bg-blue-700', 'text-white');
+                btnCards.classList.remove('border', 'border-zinc-300', 'hover:bg-zinc-100');
+                btnList.classList.remove('bg-blue-700', 'text-white');
+                btnList.classList.add('border', 'border-zinc-300', 'hover:bg-zinc-100');
+            } else {
+                cardsSections.forEach(el => el.classList.add('hidden'));
+                listView.classList.remove('hidden');
+                btnList.classList.add('bg-blue-700', 'text-white');
+                btnList.classList.remove('border', 'border-zinc-300', 'hover:bg-zinc-100');
+                btnCards.classList.remove('bg-blue-700', 'text-white');
+                btnCards.classList.add('border', 'border-zinc-300', 'hover:bg-zinc-100');
+            }
+        }
+        
+        function init() {
+            initializeTailwind();
+            setupSmoothScroll();
+            setupKeyboardNav();
+            
+            // Default to cards view
+            const btnCards = document.getElementById('btn-cards');
+            if (btnCards) btnCards.classList.add('bg-blue-700', 'text-white');
+            
+            // Make sure list is hidden initially
+            const listView = document.getElementById('list-view');
+            if (listView) listView.classList.add('hidden');
+        }
+        
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    </script>
+</body>
+</html>
